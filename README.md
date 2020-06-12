@@ -34,6 +34,9 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 flex弹性布局
 css stickyfooter
 炫酷的交互设计
+
+如何写简历
+
 ------------------
 webpack配置
 
@@ -58,6 +61,9 @@ https://juejin.im/post/5a531f4c6fb9a01cb80f926f 参考网站
 
 https://blog.csdn.net/beichen3997/article/details/84324072?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522159193432619725250154064%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=159193432619725250154064&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v3~pc_rank_v2-1-84324072.first_rank_ecpm_v3_pc_rank_v2&utm_term=vue%E4%B8%ADconfig%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE
 
+
+搭建工程化环境
+
 ------------------
 知识体系
 
@@ -72,6 +78,24 @@ node.js
 整个项目从无到有，经历了怎样的过程？
 
 有技术含量的地方是什么？如何体现这一点？
+
+***图片的处理
+icomoon 把svg格式的图标转化为图标字体
+在移动为了适配不同分辨率的手机，会使用两种大小的图片@2x.png和@3x.png
+
+在vue项目中可以不用把所有的图片都整合到一张画布上，因为webpack在打包的时候会对图片转化为64位流
+进行处理
+
+***项目目录结构的设计
+基于在打包的时候webpack会对项目中模块进行整合、优化、压缩，所以在目录结构设计时要考虑的是直观好找、易维护。
+一般是就近原则，易于维护。
+
+***数据
+基于node的
+
+
+
+
 
 
 

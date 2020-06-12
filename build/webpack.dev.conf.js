@@ -5,7 +5,7 @@ const webpack = require('webpack')
 const config = require('../config')
 const merge = require('webpack-merge') // 合并文件用的
 const path = require('path') //  请求路径
-const baseWebpackConfig = require('./webpack.base.conf')
+const baseWebpackConfig = require('./webpack.base.conf') // webpack基本配置
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin') //编译html文件的对象
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
@@ -16,8 +16,8 @@ const PORT = process.env.PORT && Number(process.env.PORT)
 
 console.log('开发环境webpack-------');
 // 热加载
-
-// 合并文件的实现
+// merge是合并的意思
+// 开发环境下 合并文件的实现
 const devWebpackConfig = merge(baseWebpackConfig, {
     module: {
         rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
@@ -55,12 +55,14 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
         new webpack.NoEmitOnErrorsPlugin(),
         // https://github.com/ampedandwired/html-webpack-plugin
+        // 解析输出html的配置
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: 'index.html',
             inject: true
         }),
         // copy custom static assets
+        // 对于静态文件static文件的复制
         new CopyWebpackPlugin([{
             from: path.resolve(__dirname, '../static'),
             to: config.dev.assetsSubDirectory,
@@ -69,6 +71,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     ]
 })
 
+// 这里使用promise异步执行
 module.exports = new Promise((resolve, reject) => {
     // 访问端口
     portfinder.basePort = process.env.PORT || config.dev.port
