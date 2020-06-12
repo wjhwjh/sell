@@ -54,6 +54,9 @@ config文件夹里是基础配置，在打包的时候需要的属性值都在�
 研究webpack的过程，把搜集到零碎的知识都记下来，不影响整个项目，等完成整个项目再回头整理。
 这是对一个很难攻克不知是什么东西学习的一种思路。
 
+https://juejin.im/post/5a531f4c6fb9a01cb80f926f 参考网站
+
+https://blog.csdn.net/beichen3997/article/details/84324072?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522159193432619725250154064%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=159193432619725250154064&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v3~pc_rank_v2-1-84324072.first_rank_ecpm_v3_pc_rank_v2&utm_term=vue%E4%B8%ADconfig%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE
 
 ------------------
 知识体系

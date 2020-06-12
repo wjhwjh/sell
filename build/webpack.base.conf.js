@@ -5,11 +5,12 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf') // 加载vue用的一个js
 
-// 目录路径的说明
+// path是node里管理路径的
 function resolve(dir) {
     return path.join(__dirname, '..', dir)
 }
 
+// eslint检查编写代码的风格，eslint配置
 const createLintingRule = () => ({
     test: /\.(js|vue)$/,
     loader: 'eslint-loader',
@@ -32,21 +33,29 @@ module.exports = {
         publicPath: process.env.NODE_ENV === 'production' ?
             config.build.assetsPublicPath : config.dev.assetsPublicPath
     },
+    //resolve的属性的功能设置模块如何被解析的
     resolve: {
+        //自动解析确定的扩展，在引入模块时可以不带扩展也就是后缀
         extensions: ['.js', '.vue', '.json'],
-        //路径别名
+        //为模块引入设置路径别名
         alias: {
+            //正在使用的是vue的运行时版本，而此版本中的编译器时不可用的，我们需要把它切换成运行时 + 编译的版本
             'vue$': 'vue/dist/vue.esm.js',
+            // 用@直接指引到src目录下，如：'.src/img'可以写成'@/img'
             '@': resolve('src'),
         }
     },
+    // module选项的作用是决定如何处理项目中的不同类型的模块
     module: {
+        // rules属性配置规则
         rules: [
             ...(config.dev.useEslint ? [createLintingRule()] : []),
             {
-                test: /\.vue$/,
-                loader: 'vue-loader',
-                options: vueLoaderConfig // 编译vue的规则
+                // vue-loader是vue项目必须的加载器，没有其它规则的时这样的简单引入，会把vue单文件
+                //直接转化为js
+                test: /\.vue$/, // 匹配的模块文件
+                loader: 'vue-loader', // 使用的解析器
+                options: vueLoaderConfig // 编译vue的规则， webpack4中这个属性已废弃
             },
             {
                 test: /\.js$/,

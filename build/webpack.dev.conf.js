@@ -1,4 +1,4 @@
-// 开发环境下webpack配置
+// 开发环境下webpack配置，在开发环境下项目运行编译执行的是这个文件
 'use strict'
 const utils = require('./utils')
 const webpack = require('webpack')
@@ -14,7 +14,7 @@ const portfinder = require('portfinder') // portfinder是node的一个模块
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
-//console.log('host接口---', process.env, HOST, PORT);
+console.log('开发环境webpack-------');
 // 热加载
 
 // 合并文件的实现

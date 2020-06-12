@@ -1,4 +1,4 @@
-// 公共模块
+// 公共模块，主要用于实现样式解析的
 'use strict'
 const path = require('path')
 const config = require('../config')
@@ -27,13 +27,20 @@ exports.cssLoaders = function(options) {
     }
 
     const postcssLoader = {
-        loader: 'postcss-loader',
-        options: {
-            sourceMap: options.sourceMap
+            loader: 'postcss-loader',
+            options: {
+                sourceMap: options.sourceMap
+            }
         }
-    }
-
-    // generate loader string to be used with extract text plugin
+        /*
+        解析css的less案例
+        'less':[//lang属性对应的名称
+                    'vue-style-loader'//首先给vue的样式loader过滤一遍
+                    'css-loader',//css-loader,把css转js
+                    'less-loader'//用less编译
+                ]
+        */
+        // generate loader string to be used with extract text plugin
     function generateLoaders(loader, loaderOptions) {
         const loaders = options.usePostCSS ? [cssLoader, postcssLoader] : [cssLoader]
 
@@ -73,6 +80,7 @@ exports.cssLoaders = function(options) {
 // Generate loaders for standalone style files (outside of .vue)
 exports.styleLoaders = function(options) {
         const output = []
+            // 这里是导出吗？？？？？？？
         const loaders = exports.cssLoaders(options)
 
         for (const extension in loaders) {
