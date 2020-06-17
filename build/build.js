@@ -12,7 +12,7 @@ const webpack = require('webpack')
 const config = require('../config')
 const webpackConfig = require('./webpack.prod.conf')
 
-console.log('这是webpack打包的入口文件------');
+//console.log('这是webpack打包的入口文件------');
 
 const spinner = ora('building for production...')
 spinner.start()
