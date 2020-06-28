@@ -7,17 +7,15 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  created () {
+    console.log(this.$Axios)
+    //this.$Axios.get('')
+  }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="stylus" rel="stylesheet/stylus">
+// 这里引入公共样式需要使用绝对路径
+ @import './common/styles/index.styl';
 </style>

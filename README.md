@@ -37,7 +37,19 @@ css stickyfooter
 
 如何写简历
 
-------------------
+9. css用的是stylus
+安装 npm install stylus
+安装后还需要安装stylus-loader css-loader style-loader
+npm install stylus-loader css-loader style-loader --save-dev
+stylus中样式文件的后缀是styl
+
+在引入icon文字图标时报错，Uncaught Error: Cannot find module '../fonts/sell-icon.eot，
+原来 woff2、eot、ttf、otf，在webpack中配置的是url-loader，然而在icon-font.scss中却写的是url，只要都改成url-loader就可以了
+
+参考网址：https://www.jianshu.com/p/ec783a8ba1f8
+
+-----------------
+
 webpack配置
 
 静态资源整合工具，是一个包，基于node.js
@@ -80,18 +92,18 @@ node.js
 有技术含量的地方是什么？如何体现这一点？
 
 ***图片的处理
-icomoon 把svg格式的图标转化为图标字体
-在移动为了适配不同分辨率的手机，会使用两种大小的图片@2x.png和@3x.png
-
-在vue项目中可以不用把所有的图片都整合到一张画布上，因为webpack在打包的时候会对图片转化为64位流
-进行处理
+1. icomoon 把svg格式的图标转化为图标字体
+   在移动为了适配不同分辨率的手机，会使用两种大小的图片@2x.png和@3x.png
+   网址：https://icomoon.io/ 
+2. 在vue项目中可以不用把所有的图片都整合到一张画布上，因为webpack在打包的时候会对图片转化为64位流
+   进行处理
 
 ***项目目录结构的设计
 基于在打包的时候webpack会对项目中模块进行整合、优化、压缩，所以在目录结构设计时要考虑的是直观好找、易维护。
 一般是就近原则，易于维护。
 
 ***数据
-基于node的
+基于node的使用模拟数据
 
 
 

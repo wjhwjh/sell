@@ -14,12 +14,32 @@ const portfinder = require('portfinder') // portfinder是node的一个模块
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
+// 利用node的express模块引入数据
+const express = require('express')
+const app = express() // 返回一个函数 app.handle(req, res, next);
+
+//console.log('express方法--', app);
+//console.log('express模块--', express);
+
+let apiRouter = express.Router()
+app.use('/api', apiRouter)
+    //console.log('express模块的路由--', apiRouter);
+
+let appData = require('../data.json')
+    //console.log(appData)
+let seller = appData.seller
+let goods = appData.goods
+let ratings = appData.ratings
+
+
 console.log('开发环境webpack-------');
 // 热加载
 // merge是合并的意思
 // 开发环境下 合并文件的实现
 const devWebpackConfig = merge(baseWebpackConfig, {
+
     module: {
+        // 处理css的插件
         rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
     },
     // cheap-module-eval-source-map is faster for development
@@ -45,13 +65,39 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         quiet: true, // necessary for FriendlyErrorsPlugin
         watchOptions: {
             poll: config.dev.poll,
+        },
+        before(app) {
+            app.get('/api/appData', function(req, res) {
+                    res.json({
+                        errno: 0,
+                        data: appData
+                    })
+                }),
+                app.get('/api/sellers', function(req, res) {
+                    res.json({
+                        errno: 0,
+                        data: seller
+                    })
+                }),
+                app.get('/api/goods', function(req, res) {
+                    res.json({
+                        errno: 0,
+                        data: goods
+                    })
+                }),
+                app.get('/api/ratings', function(req, res) {
+                    res.json({
+                        errno: 0,
+                        data: ratings
+                    })
+                })
         }
     },
     plugins: [
         new webpack.DefinePlugin({
             'process.env': require('../config/dev.env')
         }),
-        new webpack.HotModuleReplacementPlugin(),
+        new webpack.HotModuleReplacementPlugin(), // 内置热更新插件
         new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
         new webpack.NoEmitOnErrorsPlugin(),
         // https://github.com/ampedandwired/html-webpack-plugin

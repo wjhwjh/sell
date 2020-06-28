@@ -3,10 +3,12 @@ const path = require('path')
 const utils = require('./utils')
 const webpack = require('webpack')
 const config = require('../config')
-const merge = require('webpack-merge')
+const merge = require('webpack-merge') // 合并文件
 const baseWebpackConfig = require('./webpack.base.conf')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+    // webpack处理html文件
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+    // webpack把css文件独立出来，不依赖js文件
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
@@ -55,9 +57,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         // Compress extracted CSS. We are using this plugin so that possible
         // duplicated CSS from different components can be deduped.
         new OptimizeCSSPlugin({
-            cssProcessorOptions: config.build.productionSourceMap ?
-                { safe: true, map: { inline: false } } :
-                { safe: true }
+            cssProcessorOptions: config.build.productionSourceMap ? { safe: true, map: { inline: false } } : { safe: true }
         }),
         // generate dist index.html with correct asset hash for caching.
         // you can customize output by editing /index.html

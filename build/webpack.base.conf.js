@@ -12,14 +12,14 @@ function resolve(dir) {
 
 // eslint检查编写代码的风格，eslint配置
 const createLintingRule = () => ({
-    test: /\.(js|vue)$/,
-    loader: 'eslint-loader',
-    enforce: 'pre',
-    include: [resolve('src'), resolve('test')],
-    options: {
-        formatter: require('eslint-friendly-formatter'),
-        emitWarning: !config.dev.showEslintErrorsInOverlay
-    }
+    // test: /\.(js|vue)$/,
+    // loader: 'eslint-loader',
+    // enforce: 'pre',
+    // include: [resolve('src'), resolve('test')],
+    // options: {
+    //     formatter: require('eslint-friendly-formatter'),
+    //     emitWarning: !config.dev.showEslintErrorsInOverlay
+    // }
 })
 
 module.exports = {
@@ -41,8 +41,10 @@ module.exports = {
         alias: {
             //正在使用的是vue的运行时版本，而此版本中的编译器时不可用的，我们需要把它切换成运行时 + 编译的版本
             'vue$': 'vue/dist/vue.esm.js',
-            // 用@直接指引到src目录下，如：'.src/img'可以写成'@/img'
+            // 用@直接指引到src目录下，如：'.src/img'可以写成'@/img'，注意这里只针对入口文件
             '@': resolve('src'),
+            'common': resolve('../common'),
+            'components': resolve('../components'),
         }
     },
     // module选项的作用是决定如何处理项目中的不同类型的模块
@@ -57,6 +59,7 @@ module.exports = {
                 loader: 'vue-loader', // 使用的解析器
                 options: vueLoaderConfig // 编译vue的规则， webpack4中这个属性已废弃
             },
+            // 处理js文件
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
