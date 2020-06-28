@@ -3,9 +3,12 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import 'common/styles/index.styl'
+
 import Axios from 'axios'
 Vue.prototype.$Axios = Axios
 Vue.config.productionTip = false
+
 console.log('---', this.$Axios)
 
 /* eslint-disable */ // 这个注释可以忽略eslint代码检查

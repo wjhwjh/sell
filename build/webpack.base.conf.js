@@ -5,7 +5,7 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf') // 加载vue用的一个js
 
-// path是node里管理路径的
+// path是node里管理路径的,这里的dirname指的的是根目录，
 function resolve(dir) {
     return path.join(__dirname, '..', dir)
 }
@@ -37,14 +37,15 @@ module.exports = {
     resolve: {
         //自动解析确定的扩展，在引入模块时可以不带扩展也就是后缀
         extensions: ['.js', '.vue', '.json'],
+        // fallback: [path.join(__dirname, '../node_modules')],
         //为模块引入设置路径别名
         alias: {
             //正在使用的是vue的运行时版本，而此版本中的编译器时不可用的，我们需要把它切换成运行时 + 编译的版本
             'vue$': 'vue/dist/vue.esm.js',
             // 用@直接指引到src目录下，如：'.src/img'可以写成'@/img'，注意这里只针对入口文件
             '@': resolve('src'),
-            'common': resolve('../common'),
-            'components': resolve('../components'),
+            'common': resolve('src/common'), // 注意这里要写的路径的规则
+            'components': resolve('src/components'),
         }
     },
     // module选项的作用是决定如何处理项目中的不同类型的模块
