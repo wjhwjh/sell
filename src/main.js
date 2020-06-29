@@ -9,7 +9,7 @@ import Axios from 'axios'
 Vue.prototype.$Axios = Axios
 Vue.config.productionTip = false
 
-console.log('---', this.$Axios)
+// console.log('---', this.$Axios)
 
 /* eslint-disable */ // 这个注释可以忽略eslint代码检查
 new Vue({
