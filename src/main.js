@@ -6,7 +6,9 @@ import router from './router'
 import 'common/styles/index.styl'
 
 import Axios from 'axios'
+Axios.defaults.baseURL = '/api' // 设置基本的访问数据接口
 Vue.prototype.$Axios = Axios
+
 Vue.config.productionTip = false
 
 // console.log('---', this.$Axios)

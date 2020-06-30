@@ -1,23 +1,53 @@
 <template>
   <div id="app">
-    <headNav></headNav>
+    <headNav :sellers = 'sellers'></headNav>
     <router-view/>
   </div>
 </template>
 
 <script>
+
 import headNav from 'components/header/header.vue'
+
+const ERR_ON = 0
+
 export default {
   name: 'App',
   data() {
-    return {}
+    return {
+      sellers: {},
+      goods: [],
+      ratings: []
+    }
   },
   components: {
     headNav
   },
   created () {
-    // console.log(this.$Axios)
-    // this.$Axios.get('')
+    // 获取商家数据
+    this.$Axios.get('/sellers')
+      .then((res) => {
+        if (res.data.errno === ERR_ON) {
+          this.sellers = res.data.data
+          console.log('商家数据--', this.sellers)
+        }
+      })
+
+    // 获取商品数据
+    this.$Axios.get('/goods')
+      .then((res) => {
+        if (res.data.errno === ERR_ON) {
+          this.goods = res.data.data
+        }
+      })
+
+    // 获取评论数据
+    this.$Axios.get('/ratings')
+      .then((res) => {
+        if (res.data.errno === ERR_ON) {
+          this.ratings = res.data.data
+        }
+      })
   }
 }
 </script>
