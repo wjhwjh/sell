@@ -21,6 +21,12 @@
         </div>
       </div>
     </div>
+    <!-- 警告 -->
+    <div class="bulletin-wrapper">
+       <span class="bulletin"></span>
+       <span class="bulletin-text">{{sellers.bulletin}}</span>
+       <i></i>
+    </div>
   </div>
 </template>
 <script>
@@ -77,4 +83,19 @@ export default {
         font-size 10px
         color #ffffff
         line-height 12px
+  .bulletin-wrapper
+    height 28px
+    line-height 28px
+    padding 0 12px
+    background rgba(7,17,27.0.2)
+    display: flex;
+    .bulletin
+      display inline-block
+      width 10px
+      height:6px
+    .bulletin-text
+      font-size 10px
+      text-overflow ellipsis
+      overflow hidden
+      white-space nowrap
 </style>
