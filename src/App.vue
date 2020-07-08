@@ -1,6 +1,18 @@
 <template>
-  <div id="app">
+  <div id="app" class="app">
     <headNav :sellers = 'sellers'></headNav>
+    <!-- tab -->
+    <ul class="tab">
+      <li class="tab-item">
+        <router-link :to='{name:"goods"}' exact>商品</router-link>
+      </li>
+       <li class="tab-item">
+        <router-link :to='{name:"ratings"}'>评价</router-link>
+      </li>
+       <li class="tab-item">
+        <router-link :to='{name:"seller"}'>商家</router-link>
+      </li>
+    </ul>
     <router-view/>
   </div>
 </template>
@@ -53,4 +65,20 @@ export default {
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+@import './common/styles/mixin.styl'
+
+.tab
+  display flex
+  height 40px
+  border-1px(rgba(7,17,27,0.1))
+  background #fff
+  .tab-item
+    text-align center
+    font-size 14px
+    line-height 40px
+    flex 1
+    &>a
+      color rgb(77, 85, 93)
+      &.tabAcitive
+        color rgb(240,20,20)
 </style>

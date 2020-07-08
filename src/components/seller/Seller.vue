@@ -1,14 +1,12 @@
 <template>
-    <div class="goods-wrapper">
-      <div class="menu-wrapper"></div>
-      <div class=""></div>
+    <div class="box">
+      商家
     </div>
 </template>
 <script>
-import BScroll from 'better-scroll'
 export default {
   created () {
-    //console.log(this.$Axios)
+    console.log(this.$Axios)
     // this.$Axios.get('')
   }
 }
