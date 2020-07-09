@@ -42,6 +42,7 @@ export default {
     _inintScroll() {
       let menuScroll = new BScroll(this.$refs.menuGoods, {})
       let goodScroll = new BScroll(this.$refs.contentGodds, {})
+      console.log(menuScroll, goodScroll)
     }
   }
 }
