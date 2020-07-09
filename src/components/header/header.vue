@@ -70,7 +70,7 @@
   </div>
 </template>
 <script>
-let mapStyle = ["decrease", "discount", "special", "invoice", "guarantee"]
+let mapStyle = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
 export default {
   data() {
     return {
@@ -92,7 +92,7 @@ export default {
     }
   },
   mounted() {}
-};
+}
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
 @import '../../common/styles/index.styl';

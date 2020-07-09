@@ -15,7 +15,7 @@
 <script>
 import BScroll from 'better-scroll'
 let ERR_NO = 0
-let mapStyle = ["decrease", "discount", "special", "invoice", "guarantee"]
+let mapStyle = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
 export default {
   data() {
     return {
@@ -109,5 +109,5 @@ export default {
       flex 1
       .goods-list
         height 2000px
-        background #f0f0f0 
+        background #f0f0f0
 </style>
