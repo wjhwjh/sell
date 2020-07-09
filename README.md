@@ -32,7 +32,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 7. 工程化  组件化  模块化
 8. 移动端常用的开发技巧
 flex弹性布局
-css stickyfooter
+css stickyfooter 布局
 炫酷的交互设计
 
 如何写简历
@@ -42,6 +42,9 @@ css stickyfooter
 安装后还需要安装stylus-loader css-loader style-loader
 npm install stylus-loader css-loader style-loader --save-dev
 stylus中样式文件的后缀是styl
+
+使用stylus写法上直观感受到的好处是在写子元素样式不用把父元素的样式名重复写
+例如 .box .des .text{}在stylus里是嵌套的
 
 在引入icon文字图标时报错，Uncaught Error: Cannot find module '../fonts/sell-icon.eot，
 原来 woff2、eot、ttf、otf，在webpack中配置的是url-loader，然而在icon-font.scss中却写的是url，只要都改成url-loader就可以了
@@ -105,6 +108,20 @@ node.js
 ***数据
 基于node的使用模拟数据
 
+***best-scroll库实现滚动条效果
+在使用的时候在请求数据后使用
+
+***垂直居中实现
+第一种方式 
+父元素 display:table;
+子元素 display:table-cell;
+第二种方式，弹性盒布局 
+
+***命名
+组件名
+样式名
+事件名
+变量名
 
 
 
