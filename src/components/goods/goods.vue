@@ -7,7 +7,12 @@
       </div>
       <div class="goods-wrapper" ref="contentGodds">
         <ul class="goods-list">
-          <li>1111</li>
+          <li v-for="(item,index) in goods" :key="index">
+             <h2>{{item.name}}</h2>
+             <ul>
+               <li class="good-item"></li>
+             </ul>
+          </li>
         </ul>
       </div>
     </div>
@@ -112,4 +117,5 @@ export default {
       .goods-list
         height 2000px
         background #f0f0f0
+        
 </style>
