@@ -70,24 +70,24 @@
   </div>
 </template>
 <script>
-let mapStyle = ["decrease", "discount", "special", "invoice", "guarantee"];
+let mapStyle = ["decrease", "discount", "special", "invoice", "guarantee"]
 export default {
   data() {
     return {
       mapStyle,
-      detailShow:false
-    };
+      detailShow: false
+    }
   },
   props: {
     sellers: {
       type: Object
     }
   },
-  methods:{
-    hideDetail(){
+  methods: {
+    hideDetail() {
       this.detailShow = false
     },
-    detailShowHandle(){
+    detailShowHandle() {
       this.detailShow = true
     }
   },

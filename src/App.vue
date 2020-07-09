@@ -41,7 +41,7 @@ export default {
       .then((res) => {
         if (res.data.errno === ERR_ON) {
           this.sellers = res.data.data
-          console.log('商家数据--', this.sellers)
+          // console.log('商家数据--', this.sellers)
         }
       })
 
