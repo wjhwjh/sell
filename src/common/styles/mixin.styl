@@ -12,7 +12,16 @@ border-1px($color)
 border-none()  
   &:after
     display none 
-
+borderTop-1px($color) 
+  position relative
+  &:after
+    content ''
+    display block
+    position absolute
+    left 0
+    top 0
+    width 100%
+    border-top 1px solid $color
   // 图片适配，注意在写图片路径的时候不能有空格 
 bg-image($url)
   background: url($url+"@2x.png")

@@ -1,4 +1,5 @@
 <template>
+    <div>
     <div class="goods">
       <div class="menu-wrapper" ref="menuGoods">
         <ul class="menu-list">
@@ -6,19 +7,35 @@
         </ul>
       </div>
       <div class="goods-wrapper" ref="contentGodds">
-        <ul class="goods-list">
-          <li v-for="(item,index) in goods" :key="index">
-             <h2>{{item.name}}</h2>
+        <ul>
+          <li v-for="(item,index) in goods" :key="index" class="goods-list">
+             <h2 class="title">{{item.name}}</h2>
              <ul>
-               <li class="good-item"></li>
+               <li class="goods-item" v-for="(food, idx) in item.foods" :key="idx">
+                 <div class="img">
+                   <img :src="food.image" alt="">
+                 </div>
+                 <div class="content">
+                      <h3 class="name">{{food.name}}</h3>
+                      <div class="desc" v-if="food.description">{{food.description}}</div>
+                      <div class="extra">
+                        <span>月售{{food.sellCount}}份</span><span>好频率{{food.rating}}%</span>
+                      </div>
+                      <div class="price"><span class="nowPrice">￥{{food.price}}</span><span v-if="food.oldPrice" class="oldPrice">￥{{food.oldPrice}}</span></div>
+                 </div>
+               </li>
              </ul>
           </li>
         </ul>
       </div>
     </div>
+    <!-- 购物车组件 -->
+    <shopCart></shopCart>
+    </div>
 </template>
 <script>
 import BScroll from 'better-scroll'
+import shopCart from '../shopcart/shopcart'
 let ERR_NO = 0
 let mapStyle = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
 export default {
@@ -27,6 +44,9 @@ export default {
       goods: [],
       mapStyle
     }
+  },
+  components: {
+    shopCart
   },
   created () {
     // console.log(this.$Axios)
@@ -115,7 +135,53 @@ export default {
     .goods-wrapper
       flex 1
       .goods-list
-        height 2000px
-        background #f0f0f0
-        
+        background #fff
+        .title
+          line-height 26px
+          font-size 12px
+          color rgb(147,153,159)
+          background #f3f5f7
+          border-left 2px solid #d9dde1
+          padding-left 18px
+        &>ul
+          padding 0 18px
+          .goods-item
+            display flex
+            padding 18px 0
+            border-1px(rgba(7,17,27,0.1))
+            &:last-child
+              border-none()
+            .img
+              width 57px
+              height 57px
+              flex 0 0 57px
+              &>img
+                width 100%
+            .content
+              padding-left 10px
+              position relative
+              .name
+                font-size 14px
+                color rgb(7,17,27)
+                line-height 14px
+              .desc
+                font-size 10px
+                color rgb(147,153,159)
+                line-height 10px
+                margin 8px 0
+              .extra
+                font-size 10px
+                color rgb(147,153,159)
+                line-height 10px
+                margin-top 8px
+              .price
+                font-size 10px
+                color rgb(147,153,159)
+                line-height 24px
+                font-weight 700
+                .nowPrice
+                  color #eb4242
+                  margin-right 8px
+                .oldPrice
+                  text-decoration line-through
 </style>
