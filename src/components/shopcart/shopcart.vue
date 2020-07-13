@@ -20,10 +20,30 @@
     </div>
     <!-- 购物车列表 -->
     <div class="shopcart-list">
-       <div></div>
-       <ul>
-          <li></li>
-         </ul>
+       <div class="list-header">
+         <h1 class="title">购物车</h1>
+         <span class="empty">清空</span>
+       </div>
+       <div class="list-content">
+          <ul>
+            <li class="food">
+              <span class="name">这是标题</span>
+              <div>10</div>
+            </li>
+            <li class="food">
+              <span class="name">这是标题</span>
+              <div>10</div>
+            </li>
+            <li class="food">
+              <span class="name">这是标题</span>
+              <div>10</div>
+            </li>
+            <li class="food">
+              <span class="name">这是标题</span>
+              <div>10</div>
+            </li>
+          </ul>
+       </div>
     </div>
   </div>
 </template>
@@ -100,13 +120,13 @@ export default {
   position fixed
   width 100%
   bottom 0
-  background #141d27
   z-index 10
   height 46px
   .content
     display flex
     width 100%
     height 46px
+    background #141d27
     .content-left
       flex 1
       position relative
@@ -175,8 +195,45 @@ export default {
         font-weight 700
       .not-enough
         color #979a9c
-        background #2b333b  
+        background #2b333b
       .enough
         color #fff
         background #00b43c
+  .shopcart-list
+    position absolute
+    top -100%
+    left 0
+    z-index -2
+    width 100%
+    background #fff
+    transform: translate3d(0, -100%, 0);
+    .list-header
+      width 100%
+      height 40px
+      border-1px(rgba(7,17,27,0.1))
+      padding 0 12px
+      display flex
+      justify-content space-between
+      background #f3f5f7
+      .title
+        line-height 40px
+        font-size 14px
+        font-weight 200
+        color rgb(7,17,27)
+      .empty
+        line-height 40px
+        font-size 12px
+        color rgb(0,160,220)
+    .list-content
+      padding 0 12px
+      max-height 217px
+      overflow hidden
+      background #fff
+      .food
+        width 100%
+        height 48px
+        border-1px(rgba(7,17,27,0.1))
+        display flex
+        justify-content space-between
+        line-height 48px
 </style>
