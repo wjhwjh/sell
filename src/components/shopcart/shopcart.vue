@@ -1,19 +1,29 @@
 <template>
   <div class="shopcart">
+    <!-- 购物车 -->
     <div class="content">
       <div class="content-left">
           <div class="logo-wrapper">
-              <div class="logo">
-                <i class="icon-shopping_cart"></i>
+              <div class="logo" :class="{'heightlight':totalCount>0}">
+                <i class="icon-shopping_cart" :class="{'heightlight':totalCount>0}"></i>
               </div>
-              <div class="num">1</div>
+              <div class="num" v-show="totalCount>0">{{totalCount}}</div>
           </div>
-          <div class="price">30￥</div>
-          <div class="desc">另需配送费￥4元</div>
+          <div class="price" :class="{'heightlight':totalPrice>0}">{{totalPrice}}￥</div>
+          <div class="desc">另需配送费￥{{deliveryPrice}}元</div>
       </div>
       <div class="content-right">
-还差￥10起送
+          <div class="pay" :class="payClass">
+            {{payDesc}}
+          </div>
       </div>
+    </div>
+    <!-- 购物车列表 -->
+    <div class="shopcart-list">
+       <div></div>
+       <ul>
+          <li></li>
+         </ul>
     </div>
   </div>
 </template>
@@ -21,7 +31,67 @@
 export default {
   data() {
     return {}
-  }
+  },
+  props: {
+    selectedFood: {
+      type: Array,
+      default() {
+        return [
+          {
+            count: 0,
+            price: 10
+          }
+        ]
+      }
+    },
+    deliveryPrice: {
+      type: Number,
+      default: 0
+    },
+    minPrice: {
+      type: Number,
+      default: 20
+    }
+  },
+  computed: {
+    totalCount() {
+      let total = 0
+      this.selectedFood.forEach((item) => {
+        total += item.count
+      })
+      return total
+    },
+    // eslint-disable-next-line vue/return-in-computed-property
+    totalPrice() {
+      // eslint-disable-next-line no-unused-vars
+      let total = 0
+      this.selectedFood.forEach((item) => {
+        total += item.count * item.price
+      })
+      return total
+    },
+    // 结算按钮样式显示，根据计算结果调用不同的样式
+    payClass() {
+      if (this.totalPrice >= this.minPrice) {
+        return 'enough'
+      } else {
+        return 'not-enough'
+      }
+    },
+    // 结算按钮内容显示计算，根据返回值显示不同
+    payDesc() {
+      console.log(this.totalPrice)
+      if (this.totalPrice === 0) {
+        return `￥${this.minPrice}元起送`
+      } else if (this.totalPrice < this.minPrice) {
+        let diff = this.minPrice - this.totalPrice
+        return `￥还差${diff}元起送`
+      } else {
+        return '去结算'
+      }
+    }
+  },
+  methods: {}
 }
 </script>
 <style lang="stylus" scoped>
@@ -86,6 +156,8 @@ export default {
         font-size 16px
         color rgba(255,255,255,0.4)
         font-weight 700
+        &.heightlight
+          color #fff
       .desc
         margin 12px 0 12px 12px
         font-size 12px
@@ -95,12 +167,16 @@ export default {
       width 105px
       flex 0 0 105px
       text-align center
-      line-height 48px
-      font-size 14px
-      font-weight 700
-      color #979a9c
-      background #2b333b
-      &.heightlight
+      .pay
+        width 100%
+        height 48px
+        line-height 48px
+        font-size 12px
+        font-weight 700
+      .not-enough
+        color #979a9c
+        background #2b333b  
+      .enough
         color #fff
         background #00b43c
 </style>

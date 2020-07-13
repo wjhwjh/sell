@@ -57,7 +57,7 @@ export default {
           this.$nextTick(() => {
             this._inintScroll()
           })
-          console.log('这是商品页面的数据--', this.goods)
+          // console.log('这是商品页面的数据--', this.goods)
         }
       })
   },
