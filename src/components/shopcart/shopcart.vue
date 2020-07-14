@@ -26,28 +26,23 @@
        </div>
        <div class="list-content">
           <ul>
-            <li class="food">
+             <li class="food">
               <span class="name">这是标题</span>
-              <div>10</div>
-            </li>
-            <li class="food">
-              <span class="name">这是标题</span>
-              <div>10</div>
-            </li>
-            <li class="food">
-              <span class="name">这是标题</span>
-              <div>10</div>
-            </li>
-            <li class="food">
-              <span class="name">这是标题</span>
-              <div>10</div>
+              <div class="price">
+                ￥<span class="priceNum">10</span>
+              </div>
+              <div class="cartcontrol-wrapper"><cartcontrol></cartcontrol></div>
             </li>
           </ul>
        </div>
     </div>
+
+    <!-- 背景 -->
+    <div class="list-mark"></div>
   </div>
 </template>
 <script>
+import cartcontrol from '../cartcontrol/cartcontrol'
 export default {
   data() {
     return {}
@@ -111,7 +106,10 @@ export default {
       }
     }
   },
-  methods: {}
+  methods: {},
+  components: {
+    cartcontrol
+  }
 }
 </script>
 <style lang="stylus" scoped>
@@ -201,12 +199,12 @@ export default {
         background #00b43c
   .shopcart-list
     position absolute
-    top -100%
+    top 0
     left 0
-    z-index -2
+    z-index -1
     width 100%
     background #fff
-    transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0)
     .list-header
       width 100%
       height 40px
@@ -230,10 +228,40 @@ export default {
       overflow hidden
       background #fff
       .food
+        position relative
         width 100%
         height 48px
+        padding-right 70px
         border-1px(rgba(7,17,27,0.1))
         display flex
         justify-content space-between
+        .name
+          display inline-block
+          line-height 48px
+          font-size 14px
+          color rgb(7,17,27)
+      .price
         line-height 48px
+        font-size: 10px
+        color: rgb(240,20,20)
+        .priceNum
+          font-size: 14px
+          font-weight: 700
+      .cartcontrol-wrapper
+        position absolute
+        right 0
+        top 5px
+        height 100%
+        line-height 48px
+        font-size 12px
+  .list-mark
+    position fixed
+    top 0
+    left 0
+    z-index -2
+    width 100%
+    height 100%
+    //filter blur(10px)
+    background: rgba(7,17,27,0.6)
+
 </style>

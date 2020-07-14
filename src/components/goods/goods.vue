@@ -22,6 +22,9 @@
                         <span>月售{{food.sellCount}}份</span><span>好频率{{food.rating}}%</span>
                       </div>
                       <div class="price"><span class="nowPrice">￥{{food.price}}</span><span v-if="food.oldPrice" class="oldPrice">￥{{food.oldPrice}}</span></div>
+                      <div class="cartcontrol-wrapper">
+                        <cartcontrol :food = "food"></cartcontrol>
+                      </div>
                  </div>
                </li>
              </ul>
@@ -30,12 +33,13 @@
       </div>
     </div>
     <!-- 购物车组件 -->
-    <shopCart></shopCart>
+    <shopCart style="display:none"></shopCart>
     </div>
 </template>
 <script>
 import BScroll from 'better-scroll'
 import shopCart from '../shopcart/shopcart'
+import cartcontrol from '../cartcontrol/cartcontrol'
 let ERR_NO = 0
 let mapStyle = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
 export default {
@@ -46,7 +50,8 @@ export default {
     }
   },
   components: {
-    shopCart
+    shopCart,
+    cartcontrol
   },
   created () {
     // console.log(this.$Axios)
@@ -66,8 +71,12 @@ export default {
   },
   methods: {
     _inintScroll() {
-      let menuScroll = new BScroll(this.$refs.menuGoods, {})
-      let goodScroll = new BScroll(this.$refs.contentGodds, {})
+      let menuScroll = new BScroll(this.$refs.menuGoods, {
+        click: true
+      })
+      let goodScroll = new BScroll(this.$refs.contentGodds, {
+        click: true
+      })
       console.log(menuScroll, goodScroll)
     }
   }
@@ -160,14 +169,19 @@ export default {
             .content
               padding-left 10px
               position relative
+              flex 1
+              .cartcontrol-wrapper
+                position absolute
+                bottom 0
+                right 0
               .name
                 font-size 14px
                 color rgb(7,17,27)
                 line-height 14px
               .desc
+                line-height: 1.4;
                 font-size 10px
                 color rgb(147,153,159)
-                line-height 10px
                 margin 8px 0
               .extra
                 font-size 10px
