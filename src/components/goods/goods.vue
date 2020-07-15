@@ -47,7 +47,7 @@ export default {
     return {
       goods: [],
       mapStyle,
-      selectedFood: {}  // 商品详情页面使用的数据
+      selectedFood: {} // 商品详情页面使用的数据
     }
   },
   computed: {
@@ -56,13 +56,12 @@ export default {
       let foods = []
       this.goods.forEach(good => {
         good.foods.forEach(food => {
-          if(food.count){
+          if (food.count) {
             foods.push(food)
           }
         })
-       
-      });
-      console.log('----',foods)
+      })
+      console.log('----', foods)
       return foods
     }
 
@@ -95,7 +94,7 @@ export default {
       // console.log(menuScroll, goodScroll)
     }
   },
-    components: {
+  components: {
     shopCart,
     cartcontrol
   }
