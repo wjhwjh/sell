@@ -23,7 +23,7 @@
                       </div>
                       <div class="price"><span class="nowPrice">￥{{food.price}}</span><span v-if="food.oldPrice" class="oldPrice">￥{{food.oldPrice}}</span></div>
                       <div class="cartcontrol-wrapper">
-                        <cartcontrol :food = "food"></cartcontrol>
+                        <cartcontrol :food="food"></cartcontrol>
                       </div>
                  </div>
                </li>
@@ -33,7 +33,7 @@
       </div>
     </div>
     <!-- 购物车组件 -->
-    <shopCart style="display:none"></shopCart>
+    <shopCart :selectedFoods='selectedFoods'></shopCart>
     </div>
 </template>
 <script>
@@ -46,12 +46,26 @@ export default {
   data() {
     return {
       goods: [],
-      mapStyle
+      mapStyle,
+      selectedFood: {}  // 商品详情页面使用的数据
     }
   },
-  components: {
-    shopCart,
-    cartcontrol
+  computed: {
+    // 购物车使用的数据
+    selectedFoods() {
+      let foods = []
+      this.goods.forEach(good => {
+        good.foods.forEach(food => {
+          if(food.count){
+            foods.push(food)
+          }
+        })
+       
+      });
+      console.log('----',foods)
+      return foods
+    }
+
   },
   created () {
     // console.log(this.$Axios)
@@ -59,6 +73,7 @@ export default {
       .then(res => {
         if (ERR_NO === res.data.errno) {
           this.goods = res.data.data
+          console.log('这是数据---', this.goods)
           this.$nextTick(() => {
             this._inintScroll()
           })
@@ -77,8 +92,12 @@ export default {
       let goodScroll = new BScroll(this.$refs.contentGodds, {
         click: true
       })
-      console.log(menuScroll, goodScroll)
+      // console.log(menuScroll, goodScroll)
     }
+  },
+    components: {
+    shopCart,
+    cartcontrol
   }
 }
 </script>

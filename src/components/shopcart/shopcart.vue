@@ -38,7 +38,7 @@
     </div>
 
     <!-- 背景 -->
-    <div class="list-mark"></div>
+    <div class="list-mark"  style="display:none"></div>
   </div>
 </template>
 <script>
@@ -48,7 +48,7 @@ export default {
     return {}
   },
   props: {
-    selectedFood: {
+    selectedFoods: {
       type: Array,
       default() {
         return [
@@ -71,7 +71,7 @@ export default {
   computed: {
     totalCount() {
       let total = 0
-      this.selectedFood.forEach((item) => {
+      this.selectedFoods.forEach((item) => {
         total += item.count
       })
       return total
@@ -80,7 +80,7 @@ export default {
     totalPrice() {
       // eslint-disable-next-line no-unused-vars
       let total = 0
-      this.selectedFood.forEach((item) => {
+      this.selectedFoods.forEach((item) => {
         total += item.count * item.price
       })
       return total
@@ -95,7 +95,7 @@ export default {
     },
     // 结算按钮内容显示计算，根据返回值显示不同
     payDesc() {
-      console.log(this.totalPrice)
+      // console.log(this.totalPrice)
       if (this.totalPrice === 0) {
         return `￥${this.minPrice}元起送`
       } else if (this.totalPrice < this.minPrice) {
@@ -107,6 +107,9 @@ export default {
     }
   },
   methods: {},
+  mounted() {
+    console.log('传递的数据--',this.selectedFoods)
+  },
   components: {
     cartcontrol
   }
