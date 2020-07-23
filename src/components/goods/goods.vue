@@ -61,7 +61,7 @@ export default {
           }
         })
       })
-      console.log('----', foods)
+     // console.log('----', foods)
       return foods
     }
 
@@ -72,7 +72,7 @@ export default {
       .then(res => {
         if (ERR_NO === res.data.errno) {
           this.goods = res.data.data
-          console.log('这是数据---', this.goods)
+          // console.log('这是数据---', this.goods)
           this.$nextTick(() => {
             this._inintScroll()
           })

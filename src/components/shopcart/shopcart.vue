@@ -4,7 +4,7 @@
     <div class="content">
       <div class="content-left">
           <div class="logo-wrapper">
-              <div class="logo" :class="{'heightlight':totalCount>0}">
+              <div class="logo" :class="{'heightlight':totalCount>0}" @click="showShopList">
                 <i class="icon-shopping_cart" :class="{'heightlight':totalCount>0}"></i>
               </div>
               <div class="num" v-show="totalCount>0">{{totalCount}}</div>
@@ -19,33 +19,35 @@
       </div>
     </div>
     <!-- 购物车列表 -->
-    <div class="shopcart-list">
+    <div class="shopcart-list" v-show="shopListShow">
        <div class="list-header">
          <h1 class="title">购物车</h1>
          <span class="empty">清空</span>
        </div>
        <div class="list-content">
           <ul>
-             <li class="food">
-              <span class="name">这是标题</span>
+             <li class="food" v-for="(food, index) in selectedFoods" :key="index">
+              <span class="name">{{food.name}}</span>
               <div class="price">
-                ￥<span class="priceNum">10</span>
+                ￥<span class="priceNum">{{food.price}}</span>
               </div>
-              <div class="cartcontrol-wrapper"><cartcontrol></cartcontrol></div>
+              <div class="cartcontrol-wrapper"><cartcontrol :food="food"></cartcontrol></div>
             </li>
           </ul>
        </div>
     </div>
 
     <!-- 背景 -->
-    <div class="list-mark"  style="display:none"></div>
+    <div class="list-mark"  v-show="shopListShow"></div>
   </div>
 </template>
 <script>
 import cartcontrol from '../cartcontrol/cartcontrol'
 export default {
   data() {
-    return {}
+    return {
+      shopListShow:false
+    }
   },
   props: {
     selectedFoods: {
@@ -70,6 +72,7 @@ export default {
   },
   computed: {
     totalCount() {
+      // console.log('这是传递的数据－－',this.selectedFoods)
       let total = 0
       this.selectedFoods.forEach((item) => {
         total += item.count
@@ -106,9 +109,13 @@ export default {
       }
     }
   },
-  methods: {},
+  methods: {
+    showShopList() {
+      if(this.totalCount >0)this.shopListShow = !this.shopListShow
+    }
+  },
   mounted() {
-    console.log('传递的数据--',this.selectedFoods)
+    // console.log('传递的数据--',this.selectedFoods)
   },
   components: {
     cartcontrol
