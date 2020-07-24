@@ -4,7 +4,7 @@
     <div class="content">
       <div class="content-left">
           <div class="logo-wrapper">
-              <div class="logo" :class="{'heightlight':totalCount>0}" @click="showShopList">
+              <div class="logo" :class="{'heightlight':totalCount>0}" @click="showShopListHandle">
                 <i class="icon-shopping_cart" :class="{'heightlight':totalCount>0}"></i>
               </div>
               <div class="num" v-show="totalCount>0">{{totalCount}}</div>
@@ -20,33 +20,33 @@
     </div>
     <!-- 购物车列表 -->
     <div class="shopcart-list" v-show="shopListShow">
-       <div class="list-header">
-         <h1 class="title">购物车</h1>
-         <span class="empty">清空</span>
-       </div>
-       <div class="list-content">
+      <div class="list-header">
+        <h1 class="title">购物车</h1>
+        <span class="empty">清空</span>
+      </div>
+      <div class="list-content" ref="listContent">
           <ul>
-             <li class="food" v-for="(food, index) in selectedFoods" :key="index">
+            <li class="food" v-for="(food, index) in selectedFoods" :key="index">
               <span class="name">{{food.name}}</span>
               <div class="price">
-                ￥<span class="priceNum">{{food.price}}</span>
+                ￥<span class="priceNum">{{food.price*food.count}}</span>
               </div>
               <div class="cartcontrol-wrapper"><cartcontrol :food="food"></cartcontrol></div>
             </li>
           </ul>
-       </div>
+      </div>
     </div>
-
     <!-- 背景 -->
-    <div class="list-mark"  v-show="shopListShow"></div>
+    <div class="list-mark"  v-show="shopListShow" @click="markListHeadle"></div>
   </div>
 </template>
 <script>
+import BScroll from 'better-scroll'
 import cartcontrol from '../cartcontrol/cartcontrol'
 export default {
   data() {
     return {
-      shopListShow:false
+      fold: true
     }
   },
   props: {
@@ -107,11 +107,50 @@ export default {
       } else {
         return '去结算'
       }
+    },
+    shopListShow() {
+      /*
+        这里十分有趣，if条件如果符合则走if模块里的代码，然后走下边的代码
+        如果不符合，则直接走下边的代码，无论哪种情况都会执行下边的代码
+        这里真正使用的是返回值
+      */
+      if (!this.totalCount) {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        this.fold = true
+        return false
+      }
+      let show = !this.fold
+      if (show) {
+        // 如果购物列表展示
+        // 初始化滚动条
+        if (!this.scroll) {
+          // nextTick指的是修改数据之后，获取更新之后的DOM
+          this.$nextTick(() => {
+            // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+            this.scroll = new BScroll(this.$refs.listContent, {
+              click: true
+            })
+          })
+        } else {
+          // 这里也是需要使用nextTick重新计算DOM
+          this.$nextTick(() => {
+            this.scroll.refresh()
+          })
+        }
+      }
+      return show
     }
+
   },
   methods: {
-    showShopList() {
-      if(this.totalCount >0)this.shopListShow = !this.shopListShow
+    showShopListHandle() {
+      if (!this.totalCount) {
+        return
+      }
+      this.fold = !this.fold
+    },
+    markListHeadle() {
+      this.fold = true
     }
   },
   mounted() {
@@ -271,7 +310,7 @@ export default {
     z-index -2
     width 100%
     height 100%
-    //filter blur(10px)
+    backdrop-filter: blur(10px) // 背景滤镜模糊
     background: rgba(7,17,27,0.6)
 
 </style>
