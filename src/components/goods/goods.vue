@@ -1,39 +1,39 @@
 <template>
     <div>
-    <div class="goods">
-      <div class="menu-wrapper" ref="menuGoods">
-        <ul class="menu-list">
-          <li class="item" v-for="(item, index) in goods" :key="index"><span class="text"><span v-if="item.type>=0" class="icon" :class="mapStyle[item.type]"></span>{{item.name}}</span></li>
-        </ul>
+      <div class="goods">
+        <div class="menu-wrapper" ref="menuGoods">
+          <ul class="menu-list">
+            <li class="item" v-for="(item, index) in goods" :key="index"><span class="text"><span v-if="item.type>=0" class="icon" :class="mapStyle[item.type]"></span>{{item.name}}</span></li>
+          </ul>
+        </div>
+        <div class="goods-wrapper" ref="contentGodds">
+          <ul>
+            <li v-for="(item,index) in goods" :key="index" class="goods-list">
+              <h2 class="title">{{item.name}}</h2>
+              <ul>
+                <li class="goods-item" v-for="(food, idx) in item.foods" :key="idx">
+                  <div class="img">
+                    <img :src="food.image" alt="">
+                  </div>
+                  <div class="content">
+                        <h3 class="name">{{food.name}}</h3>
+                        <div class="desc" v-if="food.description">{{food.description}}</div>
+                        <div class="extra">
+                          <span>月售{{food.sellCount}}份</span><span>好频率{{food.rating}}%</span>
+                        </div>
+                        <div class="price"><span class="nowPrice">￥{{food.price}}</span><span v-if="food.oldPrice" class="oldPrice">￥{{food.oldPrice}}</span></div>
+                        <div class="cartcontrol-wrapper">
+                          <cartcontrol :food="food" @cartAdd="cartAdd"></cartcontrol>
+                        </div>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="goods-wrapper" ref="contentGodds">
-        <ul>
-          <li v-for="(item,index) in goods" :key="index" class="goods-list">
-             <h2 class="title">{{item.name}}</h2>
-             <ul>
-               <li class="goods-item" v-for="(food, idx) in item.foods" :key="idx">
-                 <div class="img">
-                   <img :src="food.image" alt="">
-                 </div>
-                 <div class="content">
-                      <h3 class="name">{{food.name}}</h3>
-                      <div class="desc" v-if="food.description">{{food.description}}</div>
-                      <div class="extra">
-                        <span>月售{{food.sellCount}}份</span><span>好频率{{food.rating}}%</span>
-                      </div>
-                      <div class="price"><span class="nowPrice">￥{{food.price}}</span><span v-if="food.oldPrice" class="oldPrice">￥{{food.oldPrice}}</span></div>
-                      <div class="cartcontrol-wrapper">
-                        <cartcontrol :food="food"></cartcontrol>
-                      </div>
-                 </div>
-               </li>
-             </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <!-- 购物车组件 -->
-    <shopCart :selectedFoods='selectedFoods'></shopCart>
+      <!-- 购物车组件 -->
+      <shopCart :selectedFoods='selectedFoods'></shopCart>
     </div>
 </template>
 <script>
@@ -81,6 +81,9 @@ export default {
   },
   mounted() {
     // console.log('获取元素---', this.$refs.menuGoods)
+    this.$on('cart.add', function(target) {
+      console.log(target)
+    })
   },
   methods: {
     _inintScroll() {
@@ -91,6 +94,9 @@ export default {
         click: true
       })
       // console.log(menuScroll, goodScroll)
+    },
+    cartAdd(targetEle) {
+      console.log('这是子组件传递过来的', targetEle)
     }
   },
   components: {
