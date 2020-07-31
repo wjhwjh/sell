@@ -38,6 +38,20 @@
     </div>
     <!-- 背景 -->
     <div class="list-mark"  v-show="shopListShow" @click="markListHeadle"></div>
+    <!-- 小球 -->
+       <!--小球动画-->
+    <div class="ball-container">
+      <!-- transition-group -->
+      <transition-group name="drop"
+                        v-on:before-enter="beforeEnter"
+                        v-on:enter="enter"
+                        v-on:after-enter="afterEnter" >
+        <div class="ball" v-for="ball in balls" v-show="ball.show" :key="ball.id">
+          <div class="inner inner-hook"></div>
+        </div>
+      </transition-group>
+    </div>
+
   </div>
 </template>
 <script>
@@ -46,7 +60,31 @@ import cartcontrol from '../cartcontrol/cartcontrol'
 export default {
   data() {
     return {
-      fold: true
+      fold: true,
+      balls:[
+         {
+            id: 0,
+            show: false
+          },
+          {
+            id: 1,
+            show: false
+          },
+          {
+            id: 2,
+            show: false
+          },
+          {
+            id: 3,
+            show: false
+          },
+          {
+            id: 4,
+            show: false
+          }
+
+      ],
+      dropBalls: []
     }
   },
   props: {
@@ -151,6 +189,67 @@ export default {
     },
     markListHeadle() {
       this.fold = true
+    },
+   drop (el) {
+        /*
+         这里的逻辑值得细细思考,如何思考
+        *  1. 为什么要循环一组小球
+        *  2. 如何使用这一组小球实现指定的动画
+        *  3. 点击触发，实现动画的小球
+        *  4. 一个小球的实现抛物线和多个小球实现抛物线
+        * */
+
+        for (let i = 0; i < this.balls.length; i++) {
+          let ballItem = this.balls[i]
+          //console.log(ball)
+          // 判断当前置为false的小球，值为false小球说明小球已完成运动
+          if (!ballItem.show) { 
+            ballItem.show = true  // 把运动的小球置为true，让其运动
+            ballItem.el = el // 把当前点击的DOM挂在当前小球上
+            this.dropBalls.push(ballItem) // 把运动的小球存到dropBalls数组中
+            return
+          }
+        }
+   },
+    beforeEnter (el) {
+      console.log('transition---', el )
+      let count = this.balls.length
+      while (count--) {
+        let ball = this.balls[count]
+        if (ball.show) {
+          let rect = ball.el.getBoundingClientRect()
+
+          let x = rect.left - 32
+          let y = -(window.innerHeight - rect.top - 22)
+
+          // console.log(rect, x, y)
+
+          el.style.display = ''
+          el.style.webkitTransform = `translate3d(0,${y}px,0)`
+          el.style.transform = `translate3d(0,${y}px,0)`
+          let inner = el.getElementsByClassName('inner-hook')[0]
+          inner.style.webkitTransform = `translate3d(${x}px,0,0)`
+          inner.style.transform = `translate3d(${x}px,0,0)`
+        }
+      }
+    },
+    enter (el) {
+      /* eslint-disable no-unused-vars */
+      let rf = el.offsetHeight
+      this.$nextTick(() => {
+        el.style.webkitTransform = 'translate3d(0,0,0)'
+        el.style.transform = 'translate3d(0,0,0)'
+        let inner = el.getElementsByClassName('inner-hook')[0]
+        inner.style.webkitTransform = 'translate3d(0,0,0)'
+        inner.style.transform = 'translate3d(0,0,0)'
+      })
+    },
+    afterEnter (el) {
+      let ball = this.dropBalls.shift()
+      if (ball) {
+        ball.show = false
+        el.style.display = 'none'
+      }
     }
   },
   mounted() {
@@ -158,7 +257,7 @@ export default {
   },
   components: {
     cartcontrol
-  }
+    },
 }
 </script>
 <style lang="stylus" scoped>
@@ -312,5 +411,19 @@ export default {
     height 100%
     backdrop-filter: blur(10px) // 背景滤镜模糊
     background: rgba(7,17,27,0.6)
-
+  .ball-container
+    .ball
+      position: fixed
+      left: 32px
+      bottom: 22px
+      z-index: 200
+      &.drop-enter-active
+        opacity: 1
+        transition: all 0.4s cubic-bezier(0.49, -0.29, 0.75, 0.41)
+      .inner
+        width: 16px
+        height: 16px
+        border-radius: 50%
+        background: rgb(0, 160, 220)
+        transition: all 0.4s linear
 </style>

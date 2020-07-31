@@ -33,7 +33,7 @@
         </div>
       </div>
       <!-- 购物车组件 -->
-      <shopCart :selectedFoods='selectedFoods'></shopCart>
+      <shopCart :selectedFoods='selectedFoods' ref="shopCart"></shopCart>
     </div>
 </template>
 <script>
@@ -81,9 +81,7 @@ export default {
   },
   mounted() {
     // console.log('获取元素---', this.$refs.menuGoods)
-    this.$on('cart.add', function(target) {
-      console.log(target)
-    })
+   
   },
   methods: {
     _inintScroll() {
@@ -95,8 +93,15 @@ export default {
       })
       // console.log(menuScroll, goodScroll)
     },
+    // 父组件访问子组件的方法，如何访问子组件的方法
+    _drop(targetEle) {
+      this.$refs.shopCart.drop(targetEle)
+      //console.log('我要调子组件的方法',this.$refs.shopCart)
+    },
+    // cartAdd()方法是 cartcontrol传递过来的，然后要把对应的DOM传递到shopcart
     cartAdd(targetEle) {
-      console.log('这是子组件传递过来的', targetEle)
+      //console.log('这是cartcontrol子组件传递过来的', targetEle.offsetTop)
+      this._drop(targetEle)
     }
   },
   components: {
