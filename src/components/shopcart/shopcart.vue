@@ -193,38 +193,60 @@ export default {
    drop (el) {
         /*
          这里的逻辑值得细细思考,如何思考
-        *  1. 为什么要循环一组小球
-        *  2. 如何使用这一组小球实现指定的动画
-        *  3. 点击触发，实现动画的小球
-        *  4. 一个小球的实现抛物线和多个小球实现抛物线
+        
+         找一个未运动的小球的对象
+         把当前触发的添加商品的DOM（也就是cartcontrol）挂载到这个对象上
+         把这个小球的状态置为运动
+         把当前存放运动小球信息的对象放到一个数组中，也就是一个运动队列
         * */
 
-        for (let i = 0; i < this.balls.length; i++) {
-          let ballItem = this.balls[i]
-          //console.log(ball)
-          // 判断当前置为false的小球，值为false小球说明小球已完成运动
-          if (!ballItem.show) { 
-            ballItem.show = true  // 把运动的小球置为true，让其运动
-            ballItem.el = el // 把当前点击的DOM挂在当前小球上
-            this.dropBalls.push(ballItem) // 把运动的小球存到dropBalls数组中
-            return
-          }
-        }
+        for(let i=0; i<this.balls.length;i++){
+           let ballItem = this.balls[i] // ball 是一个对象
+           if(!ballItem.show){
+            ballItem.show = true // 找到要运动的小球，也就是对应一个小球的DOM进行运动
+            ballItem.el = el // 这里的el是指对应添加商品的cartctrol组件,在运动的时候用于计算小球的开始位置
+            this.dropBalls.push(ballItem)
+            // console.log(this.dropBalls)
+            return true
+           }
+        } 
+
+
+
+        // for (let i = 0; i < this.balls.length; i++) {
+        //   let ballItem = this.balls[i]
+     
+        //   if (!ballItem.show) { 
+        //     ballItem.show = true  // 把运动的小球置为true，让其运动
+        //     ballItem.el = el // 把当前点击的DOM挂在当前小球上
+        //     this.dropBalls.push(ballItem) // 把运动的小球存到dropBalls数组中
+        //     return
+        //   }
+        // }
    },
+   // 
     beforeEnter (el) {
       console.log('transition---', el )
+      // el指的是当前触发的运动小球的DOM元素
+      // 定位哪个是要运动的小球，根据ballss数组中元素对象show对应的值进行查找
+      // 遍历－> if() 根据元素对象的show属性
       let count = this.balls.length
+      // 遍历每一个balls数组，判断其是否要运动
       while (count--) {
+        // 遍历获取每一个
         let ball = this.balls[count]
+       // ball.show如果为真，说明小球开始运动了
         if (ball.show) {
+
           let rect = ball.el.getBoundingClientRect()
 
           let x = rect.left - 32
+          // y轴相对于底部，rect.top指的是DOM元素距离窗口顶部的距离
           let y = -(window.innerHeight - rect.top - 22)
 
           // console.log(rect, x, y)
 
-          el.style.display = ''
+          // el.style.display = ''
           el.style.webkitTransform = `translate3d(0,${y}px,0)`
           el.style.transform = `translate3d(0,${y}px,0)`
           let inner = el.getElementsByClassName('inner-hook')[0]
@@ -233,9 +255,11 @@ export default {
         }
       }
     },
+    // 
     enter (el) {
       /* eslint-disable no-unused-vars */
       let rf = el.offsetHeight
+      // console.log('不知道这是啥－－－', rf)
       this.$nextTick(() => {
         el.style.webkitTransform = 'translate3d(0,0,0)'
         el.style.transform = 'translate3d(0,0,0)'
@@ -244,11 +268,12 @@ export default {
         inner.style.transform = 'translate3d(0,0,0)'
       })
     },
+    // 
     afterEnter (el) {
       let ball = this.dropBalls.shift()
       if (ball) {
         ball.show = false
-        el.style.display = 'none'
+        //el.style.display = 'none'
       }
     }
   },
