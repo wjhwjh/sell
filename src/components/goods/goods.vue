@@ -81,7 +81,6 @@ export default {
   },
   mounted() {
     // console.log('获取元素---', this.$refs.menuGoods)
-   
   },
   methods: {
     _inintScroll() {

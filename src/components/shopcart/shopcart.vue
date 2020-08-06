@@ -22,7 +22,7 @@
     <div class="shopcart-list" v-show="shopListShow">
       <div class="list-header">
         <h1 class="title">购物车</h1>
-        <span class="empty">清空</span>
+        <span class="empty" @click="emptyHandle">清空</span>
       </div>
       <div class="list-content" ref="listContent">
           <ul>
@@ -37,7 +37,9 @@
       </div>
     </div>
     <!-- 背景 -->
-    <div class="list-mark"  v-show="shopListShow" @click="markListHeadle"></div>
+    <transition >
+      <div class="list-mark"  v-show="shopListShow" @click="markListHeadle"></div>
+    </transition>
     <!-- 小球 -->
        <!--小球动画-->
     <div class="ball-container">
@@ -82,7 +84,6 @@ export default {
             id: 4,
             show: false
           }
-
       ],
       dropBalls: []
     }
@@ -190,43 +191,33 @@ export default {
     markListHeadle() {
       this.fold = true
     },
-   drop (el) {
-        /*
-         这里的逻辑值得细细思考,如何思考
-        
-         找一个未运动的小球的对象
-         把当前触发的添加商品的DOM（也就是cartcontrol）挂载到这个对象上
-         把这个小球的状态置为运动
-         把当前存放运动小球信息的对象放到一个数组中，也就是一个运动队列
-        * */
+    emptyHandle() {
+      this.selectedFoods.forEach(item => {
+        item.count = 0
+      })
+    },
+    drop (el) {
+      /*
+      这里的逻辑值得细细思考,如何思考
+      找一个未运动的小球的对象
+      把当前触发的添加商品的DOM（也就是cartcontrol）挂载到这个对象上
+      把这个小球的状态置为运动
+      把当前存放运动小球信息的对象放到一个数组中，也就是一个运动队列
+      * */
 
-        for(let i=0; i<this.balls.length;i++){
-           let ballItem = this.balls[i] // ball 是一个对象
-           if(!ballItem.show){
-            ballItem.show = true // 找到要运动的小球，也就是对应一个小球的DOM进行运动
-            ballItem.el = el // 这里的el是指对应添加商品的cartctrol组件,在运动的时候用于计算小球的开始位置
-            this.dropBalls.push(ballItem)
-            // console.log(this.dropBalls)
-            return true
-           }
-        } 
-
-
-
-        // for (let i = 0; i < this.balls.length; i++) {
-        //   let ballItem = this.balls[i]
-     
-        //   if (!ballItem.show) { 
-        //     ballItem.show = true  // 把运动的小球置为true，让其运动
-        //     ballItem.el = el // 把当前点击的DOM挂在当前小球上
-        //     this.dropBalls.push(ballItem) // 把运动的小球存到dropBalls数组中
-        //     return
-        //   }
-        // }
-   },
-   // 
+      for (let i = 0; i < this.balls.length; i++) {
+        let ballItem = this.balls[i] // ball 是一个对象
+        if (!ballItem.show) {
+          ballItem.show = true // 找到要运动的小球，也就是对应一个小球的DOM进行运动
+          ballItem.el = el // 这里的el是指对应添加商品的cartctrol组件,在运动的时候用于计算小球的开始位置
+          this.dropBalls.push(ballItem)
+          // console.log(this.dropBalls)
+          return true
+        }
+      }
+    },
     beforeEnter (el) {
-      console.log('transition---', el )
+      console.log('transition---', el)
       // el指的是当前触发的运动小球的DOM元素
       // 定位哪个是要运动的小球，根据ballss数组中元素对象show对应的值进行查找
       // 遍历－> if() 根据元素对象的show属性
@@ -235,7 +226,7 @@ export default {
       while (count--) {
         // 遍历获取每一个
         let ball = this.balls[count]
-       // ball.show如果为真，说明小球开始运动了
+        // ball.show如果为真，说明小球开始运动了
         if (ball.show) {
 
           let rect = ball.el.getBoundingClientRect()
@@ -255,7 +246,7 @@ export default {
         }
       }
     },
-    // 
+    //
     enter (el) {
       /* eslint-disable no-unused-vars */
       let rf = el.offsetHeight
@@ -268,7 +259,7 @@ export default {
         inner.style.transform = 'translate3d(0,0,0)'
       })
     },
-    // 
+    //
     afterEnter (el) {
       let ball = this.dropBalls.shift()
       if (ball) {
@@ -282,7 +273,7 @@ export default {
   },
   components: {
     cartcontrol
-    },
+  }
 }
 </script>
 <style lang="stylus" scoped>
