@@ -3,7 +3,7 @@
       <div class="goods">
         <div class="menu-wrapper" ref="menuGoods">
           <ul class="menu-list">
-            <li class="item" v-for="(item, index) in goods" :key="index"><span class="text"><span v-if="item.type>=0" class="icon" :class="mapStyle[item.type]"></span>{{item.name}}</span></li>
+            <li class="item" v-for="(item, index) in goods" :key="index" @click="menuHandle(index)"><span class="text"><span v-if="item.type>=0" class="icon" :class="mapStyle[item.type]"></span>{{item.name}}</span></li>
           </ul>
         </div>
         <div class="goods-wrapper" ref="contentGodds">
@@ -72,6 +72,7 @@ export default {
         if (ERR_NO === res.data.errno) {
           this.goods = res.data.data
           // console.log('这是数据---', this.goods)
+          // nextTick是vue内置方法，指修改数据之后，获取到更新之后的DOM
           this.$nextTick(() => {
             this._inintScroll()
           })
@@ -95,12 +96,14 @@ export default {
     // 父组件访问子组件的方法，如何访问子组件的方法
     _drop(targetEle) {
       this.$refs.shopCart.drop(targetEle)
-      //console.log('我要调子组件的方法',this.$refs.shopCart)
     },
     // cartAdd()方法是 cartcontrol传递过来的，然后要把对应的DOM传递到shopcart
     cartAdd(targetEle) {
-      //console.log('这是cartcontrol子组件传递过来的', targetEle.offsetTop)
+      // console.log('这是cartcontrol子组件传递过来的', targetEle.offsetTop)
       this._drop(targetEle)
+    },
+    menuHandle(index) {
+      console.log('点击商品--', index)
     }
   },
   components: {

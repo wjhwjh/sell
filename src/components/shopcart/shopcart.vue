@@ -217,7 +217,7 @@ export default {
       }
     },
     beforeEnter (el) {
-      console.log('transition---', el)
+      // console.log('transition---', el)
       // el指的是当前触发的运动小球的DOM元素
       // 定位哪个是要运动的小球，根据ballss数组中元素对象show对应的值进行查找
       // 遍历－> if() 根据元素对象的show属性
@@ -228,7 +228,6 @@ export default {
         let ball = this.balls[count]
         // ball.show如果为真，说明小球开始运动了
         if (ball.show) {
-
           let rect = ball.el.getBoundingClientRect()
 
           let x = rect.left - 32
@@ -249,7 +248,7 @@ export default {
     //
     enter (el) {
       /* eslint-disable no-unused-vars */
-      let rf = el.offsetHeight
+      let rf = el.offsetHeight // 更新DOM
       // console.log('不知道这是啥－－－', rf)
       this.$nextTick(() => {
         el.style.webkitTransform = 'translate3d(0,0,0)'
