@@ -40,33 +40,35 @@
     </div>
 
     <!-- 展示详情 -->
-    <div class="detail" v-show="detailShow">
-      <div class="detail-wrapper">
-        <div class="detail-main">
-          <div class="name">{{sellers.name}}</div>
-          <div class="star-wrapper"></div>
-          <div class="title">
-            <span class="line"></span>
-            <span class="text">信息优惠</span>
-            <span class="line"></span>
+    <transition name="detail-fade">
+      <div class="detail" v-show="detailShow">
+        <div class="detail-wrapper">
+          <div class="detail-main">
+            <div class="name">{{sellers.name}}</div>
+            <div class="star-wrapper"></div>
+            <div class="title">
+              <span class="line"></span>
+              <span class="text">信息优惠</span>
+              <span class="line"></span>
+            </div>
+            <ul class="support" v-if="sellers.supports">
+              <li v-for="(item, index) in sellers.supports" :key="index">
+                <span class="icon" :class="mapStyle[sellers.supports[index].type]"></span><span class="text">{{item.description}}</span>
+              </li>
+            </ul>
+            <div class="title">
+              <span class="line"></span>
+              <span class="text">商家公告</span>
+              <span class="line"></span>
+            </div>
+            <div class="bulletin">{{sellers.bulletin}}</div>
           </div>
-          <ul class="support" v-if="sellers.supports">
-            <li v-for="(item, index) in sellers.supports" :key="index">
-              <span class="icon" :class="mapStyle[sellers.supports[index].type]"></span><span class="text">{{item.description}}</span>
-            </li>
-          </ul>
-          <div class="title">
-            <span class="line"></span>
-            <span class="text">商家公告</span>
-            <span class="line"></span>
-          </div>
-          <div class="bulletin">{{sellers.bulletin}}</div>
+        </div>
+        <div class="detail-close" @click="hideDetail">
+          <i class="icon-close"></i>
         </div>
       </div>
-      <div class="detail-close" @click="hideDetail">
-        <i class="icon-close"></i>
-      </div>
-    </div>
+    </transition>
   </div>
 </template>
 <script>
@@ -270,7 +272,15 @@ export default {
     background: rgba(7, 17, 27, 0.8);
     z-index: 20;
     overflow-y: auto;
-
+    &.detail-fade-enter,&.detail-fade-leave-to{
+      opacity 0
+    }
+    &.detail-fade-enter-active,&.detail-fade-leave-active{
+      transition 0.3s
+    }
+    &.detail-fade-enter-to,&.detail-fade-leave{
+      opacity 1
+    }
     .detail-wrapper {
       min-height: 100%;
       padding-bottom: 64px;

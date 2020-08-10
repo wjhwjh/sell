@@ -62,7 +62,7 @@ export default {
       opacity 0
       transform translate3d(24px, 0 ,0) rotate(180deg)
     &.fade-enter-active, &.fade-leave-active
-      transition all 0.3s
+      transition all 0.2s
     &.fade-enter-to
       opacity 1
   .cart-count
@@ -74,7 +74,7 @@ export default {
     &.countFade-enter
       opacity 0
     &.countFade-enter-active
-      transition all 1s
+      transition all 0.5s
     &.countFade-enter-to
       opacity 1
   .cart-add

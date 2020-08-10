@@ -37,7 +37,7 @@
       </div>
     </div>
     <!-- 背景 -->
-    <transition >
+    <transition name="fade">
       <div class="list-mark"  v-show="shopListShow" @click="markListHeadle"></div>
     </transition>
     <!-- 小球 -->
@@ -426,6 +426,12 @@ export default {
     height 100%
     backdrop-filter: blur(10px) // 背景滤镜模糊
     background: rgba(7,17,27,0.6)
+    &.fade-enter, &.fade-leave-to
+      opacity 0
+    &.fade-enter-active, &.fade-leave-active
+      transition 0.3s
+    &.fade-enter-to, &.fade-leave
+      opacity 1
   .ball-container
     .ball
       position: fixed
