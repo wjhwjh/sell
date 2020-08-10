@@ -6,10 +6,10 @@
             <li class="item" v-for="(item, index) in goods" :key="index" @click="menuHandle(index)"><span class="text"><span v-if="item.type>=0" class="icon" :class="mapStyle[item.type]"></span>{{item.name}}</span></li>
           </ul>
         </div>
-        <div class="goods-wrapper" ref="contentGodds">
-          <ul>
+        <div class="goods-wrapper" ref="goodsWrapper">
+          <ul ref="goodsList">
             <li v-for="(item,index) in goods" :key="index" class="goods-list">
-              <h2 class="title">{{item.name}}</h2>
+              <h2 class="title title-hook">{{item.name}}</h2>
               <ul>
                 <li class="goods-item" v-for="(food, idx) in item.foods" :key="idx">
                   <div class="img">
@@ -47,7 +47,9 @@ export default {
     return {
       goods: [],
       mapStyle,
-      selectedFood: {} // 商品详情页面使用的数据
+      selectedFood: {}, // 商品详情页面使用的数据
+      listHeight: [],
+      scrollY: 0 // 滚动条当前的位置
     }
   },
   computed: {
@@ -75,6 +77,7 @@ export default {
           // nextTick是vue内置方法，指修改数据之后，获取到更新之后的DOM
           this.$nextTick(() => {
             this._inintScroll()
+            // this._calculateHeight()
           })
           // console.log('这是商品页面的数据--', this.goods)
         }
@@ -91,7 +94,20 @@ export default {
       let goodScroll = new BScroll(this.$refs.contentGodds, {
         click: true
       })
-      // console.log(menuScroll, goodScroll)
+      // this.goodScroll.on('scroll', (pos) => {
+      //   console.log('这个参数是什么--', pos)
+      // })
+    },
+    _calculateHeight() {
+      let foodList = this.$refs.goodsWrapper.getElementsByClassName('title-hook')
+      // console.log(foodList)
+      let height = 0
+      this.listHeight.push(height)
+      for (let i = 0; i < foodList.length; i++) {
+        height += foodList[i].clientHeight
+        this.listHeight.push(height)
+      }
+      // console.log(this.listHeight)
     },
     // 父组件访问子组件的方法，如何访问子组件的方法
     _drop(targetEle) {
