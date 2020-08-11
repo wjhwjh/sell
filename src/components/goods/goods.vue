@@ -3,10 +3,10 @@
       <div class="goods">
         <div class="menu-wrapper" ref="menuGoods">
           <ul class="menu-list">
-            <li class="item" v-for="(item, index) in goods" :key="index" @click="menuHandle(index)"><span class="text"><span v-if="item.type>=0" class="icon" :class="mapStyle[item.type]"></span>{{item.name}}</span></li>
+            <li class="item" v-for="(item, index) in goods" :key="index" @click="menuHandle(index)" :class="{'current': currentIndex===index}"><span class="text"><span v-if="item.type>=0" class="icon" :class="mapStyle[item.type]"></span>{{item.name}}</span></li>
           </ul>
         </div>
-        <div class="goods-wrapper" ref="goodsWrapper">
+        <div class="goods-wrapper" ref="contentGodds">
           <ul ref="goodsList">
             <li v-for="(item,index) in goods" :key="index" class="goods-list">
               <h2 class="title title-hook">{{item.name}}</h2>
@@ -64,8 +64,20 @@ export default {
         })
       })
       return foods
+    },
+    currentIndex() {
+      console.log(this.listHeight)
+      let len = this.listHeight.length - 1
+      console.log(len)
+      for (let i = 0; i < len; i++) {
+        let height1 = this.listHeight[i]
+        let height2 = this.listHeight[ i + 1 ]
+        if (scrollY >= height1 && scrollY < height2) {
+          return i
+        }
+      }
+      return 0
     }
-
   },
   created () {
     // console.log(this.$Axios)
@@ -77,7 +89,7 @@ export default {
           // nextTick是vue内置方法，指修改数据之后，获取到更新之后的DOM
           this.$nextTick(() => {
             this._inintScroll()
-            // this._calculateHeight()
+            this._calculateHeight()
           })
           // console.log('这是商品页面的数据--', this.goods)
         }
@@ -88,18 +100,20 @@ export default {
   },
   methods: {
     _inintScroll() {
-      let menuScroll = new BScroll(this.$refs.menuGoods, {
+      this.menuScroll = new BScroll(this.$refs.menuGoods, {
         click: true
       })
-      let goodScroll = new BScroll(this.$refs.contentGodds, {
-        click: true
+      this.goodScroll = new BScroll(this.$refs.contentGodds, {
+        click: true,
+        probeType: 3
       })
-      // this.goodScroll.on('scroll', (pos) => {
-      //   console.log('这个参数是什么--', pos)
-      // })
+      this.goodScroll.on('scroll', (pos) => {
+        this.scrollY = Math.abs(Math.floor(pos.y))
+        // console.log('这个参数是什么--', this.scrollY)
+      })
     },
     _calculateHeight() {
-      let foodList = this.$refs.goodsWrapper.getElementsByClassName('title-hook')
+      let foodList = this.$refs.goodsList.getElementsByClassName('title-hook')
       // console.log(foodList)
       let height = 0
       this.listHeight.push(height)
