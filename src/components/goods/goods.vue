@@ -3,15 +3,15 @@
       <div class="goods">
         <div class="menu-wrapper" ref="menuGoods">
           <ul class="menu-list">
-            <li class="item" v-for="(item, index) in goods" :key="index" @click="menuHandle(index)" :class="{'current': currentIndex===index}"><span class="text"><span v-if="item.type>=0" class="icon" :class="mapStyle[item.type]"></span>{{item.name}}</span></li>
+            <li class="item" v-for="(item, index) in goods" :key="index" @click="menuHandle(index)" :class="{'current': index==currentIndex}"><span class="text"><span v-if="item.type>=0" class="icon" :class="mapStyle[item.type]"></span>{{item.name}}</span></li>
           </ul>
         </div>
         <div class="goods-wrapper" ref="contentGodds">
           <ul ref="goodsList">
-            <li v-for="(item,index) in goods" :key="index" class="goods-list">
+            <li v-for="(item,index) in goods" :key="index" class="goods-list goods-list-hook" >
               <h2 class="title title-hook">{{item.name}}</h2>
               <ul>
-                <li class="goods-item" v-for="(food, idx) in item.foods" :key="idx">
+                <li class="goods-item" v-for="(food, idx) in item.foods" :key="idx" @click="selectedFoodHandle(food)">
                   <div class="img">
                     <img :src="food.image" alt="">
                   </div>
@@ -34,12 +34,16 @@
       </div>
       <!-- 购物车组件 -->
       <shopCart :selectedFoods='selectedFoods' ref="shopCart"></shopCart>
+
+      <!-- 商品详情页面 -->
+      <Food :selectedFood='selectedFood' ref="foodDetail"></Food>
     </div>
 </template>
 <script>
 import BScroll from 'better-scroll'
 import shopCart from '../shopcart/shopcart'
 import cartcontrol from '../cartcontrol/cartcontrol'
+import Food from '../food/food'
 let ERR_NO = 0
 let mapStyle = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
 export default {
@@ -66,13 +70,13 @@ export default {
       return foods
     },
     currentIndex() {
-      console.log(this.listHeight)
+      // console.log(this.listHeight)
       let len = this.listHeight.length - 1
-      console.log(len)
+      // console.log(len)
       for (let i = 0; i < len; i++) {
         let height1 = this.listHeight[i]
         let height2 = this.listHeight[ i + 1 ]
-        if (scrollY >= height1 && scrollY < height2) {
+        if (!!height2 && this.scrollY >= height1 && this.scrollY < height2) {
           return i
         }
       }
@@ -113,15 +117,13 @@ export default {
       })
     },
     _calculateHeight() {
-      let foodList = this.$refs.goodsList.getElementsByClassName('title-hook')
-      // console.log(foodList)
+      let foodList = this.$refs.contentGodds.getElementsByClassName('goods-list-hook')
       let height = 0
       this.listHeight.push(height)
       for (let i = 0; i < foodList.length; i++) {
         height += foodList[i].clientHeight
         this.listHeight.push(height)
       }
-      // console.log(this.listHeight)
     },
     // 父组件访问子组件的方法，如何访问子组件的方法
     _drop(targetEle) {
@@ -133,12 +135,25 @@ export default {
       this._drop(targetEle)
     },
     menuHandle(index) {
-      console.log('点击商品--', index)
+      // console.log('点击商品--', index)
+      let foodList = this.$refs.contentGodds.getElementsByClassName('goods-list-hook')
+      // 获取与点击索引值相同的商品模块
+      let el = foodList[index]
+
+      // 直接使用，跳转到对应的模块，简直太方便了
+      this.goodScroll.scrollToElement(el, 300)
+    },
+    selectedFoodHandle(food) {
+      // console.log(food)
+      this.selectedFood = food
+      // 这种形式执行子组件的方法
+      this.$refs.foodDetail.show()
     }
   },
   components: {
     shopCart,
-    cartcontrol
+    cartcontrol,
+    Food
   }
 }
 </script>
