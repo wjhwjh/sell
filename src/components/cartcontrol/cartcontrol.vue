@@ -2,12 +2,12 @@
   <div class="cartcontrol">
     <!-- 有3个地方用到这个组件，因为需要父组件传递参数，只要父组件用到这个组件，就要写要传递的数据，不然会报错 -->
      <transition name="fade">
-      <div v-show="food.count>0" class="cart-decrease icon-remove_circle_outline" @click="decreaseCart"></div>
+      <div v-show="food.count>0" class="cart-decrease icon-remove_circle_outline" @click.stop="decreaseCart"></div>
      </transition>
      <transition name="countFade">
         <div class="cart-count" v-show="food.count>0">{{food.count}}</div>
      </transition>
-     <div class="cart-add icon-add_circle" @click="addCart($event)"></div>
+     <div class="cart-add icon-add_circle" @click.stop="addCart($event)"></div>
   </div>
 </template>
 <script>
