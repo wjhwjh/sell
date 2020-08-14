@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     addCart(event) {
-      // console.log('添加商品')
+      console.log('cartControl添加商品')
       // console.log('选择的商品--', this.food)
       if (!this.food.count) {
         this.$set(this.food, 'count', 1)

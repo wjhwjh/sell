@@ -36,7 +36,7 @@
       <shopCart :selectedFoods='selectedFoods' ref="shopCart"></shopCart>
 
       <!-- 商品详情页面 -->
-      <Food :selectedFood='selectedFood' ref="foodDetail"></Food>
+      <Food :food='selectedFood' ref="foodDetail" ></Food>
     </div>
 </template>
 <script>
@@ -51,13 +51,13 @@ export default {
     return {
       goods: [],
       mapStyle,
-      selectedFood: {}, // 商品详情页面使用的数据
+      selectedFood: {}, // 这是一个对象，商品详情页面使用的数据
       listHeight: [],
       scrollY: 0 // 滚动条当前的位置
     }
   },
   computed: {
-    // 购物车使用的数据
+    // 购物车使用的数据,返回的是一个数组
     selectedFoods() {
       let foods = []
       this.goods.forEach(good => {
@@ -69,6 +69,7 @@ export default {
       })
       return foods
     },
+    // 返回当前索引值
     currentIndex() {
       // console.log(this.listHeight)
       let len = this.listHeight.length - 1
@@ -131,7 +132,7 @@ export default {
     },
     // cartAdd()方法是 cartcontrol传递过来的，然后要把对应的DOM传递到shopcart
     cartAdd(targetEle) {
-      // console.log('这是cartcontrol子组件传递过来的', targetEle.offsetTop)
+      console.log('这是cartcontrol子组件传递过来的', targetEle.offsetTop)
       this._drop(targetEle)
     },
     menuHandle(index) {
