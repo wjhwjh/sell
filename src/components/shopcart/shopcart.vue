@@ -31,7 +31,7 @@
               <div class="price">
                 ￥<span class="priceNum">{{food.price*food.count}}</span>
               </div>
-              <div class="cartcontrol-wrapper"><cartcontrol :food="food"></cartcontrol></div>
+              <div class="cartcontrol-wrapper"><cartcontrol :food="food" @cartAdd = 'cartAdd'></cartcontrol></div>
             </li>
           </ul>
       </div>
@@ -263,8 +263,12 @@ export default {
       let ball = this.dropBalls.shift()
       if (ball) {
         ball.show = false
-        //el.style.display = 'none'
+        // el.style.display = 'none'
       }
+    },
+    cartAdd (el) {
+      // console.log(el)
+      this.$emit('cartAdd', el)
     }
   },
   mounted() {

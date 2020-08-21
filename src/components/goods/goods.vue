@@ -33,10 +33,10 @@
         </div>
       </div>
       <!-- 购物车组件 -->
-      <shopCart :selectedFoods='selectedFoods' ref="shopCart"></shopCart>
+      <shopCart :selectedFoods='selectedFoods' ref="shopCart" @cartAdd="cartAdd"></shopCart>
 
       <!-- 商品详情页面 -->
-      <Food :food='selectedFood' ref="foodDetail" ></Food>
+      <Food :food='selectedFood' ref="foodDetail" @cartAdd="cartAdd"></Food>
     </div>
 </template>
 <script>
@@ -101,6 +101,7 @@ export default {
       })
   },
   mounted() {
+    // console.log('父组件mounted事件')
     // console.log('获取元素---', this.$refs.menuGoods)
   },
   methods: {
@@ -132,7 +133,6 @@ export default {
     },
     // cartAdd()方法是 cartcontrol传递过来的，然后要把对应的DOM传递到shopcart
     cartAdd(targetEle) {
-      console.log('这是cartcontrol子组件传递过来的', targetEle.offsetTop)
       this._drop(targetEle)
     },
     menuHandle(index) {

@@ -7,8 +7,6 @@
           <img :src="food.image" alt="">
           <i class="icon-arrow_lift" @click="hide"></i>
         </div>
-        <!-- <div>{{selectedFood}}</div> -->
-        <!-- 内容 -->
         <!-- 标题 -->
         <div class="content">
           <h1 class="title">{{food.name}}</h1>
@@ -20,16 +18,27 @@
             <span class="old" v-if="food.oldPrice">￥{{food.oldPrice}}</span>
           </div>
           <div class="controlWrapper">
-            <cartcontrol :food='food' v-if="food.count"></cartcontrol>
+            <cartcontrol :food='food' v-if="food.count" @cartAdd = 'cartAdd'></cartcontrol>
           </div>
-          <div @click="addFirst($event)" class="buy" v-show="!food.count || food.count===0">加入购物车</div>
+
+          <transition name="fade">
+            <div @click="addFirst($event)" class="buy" v-show="!food.count || food.count===0">加入购物车</div>
+          </transition>
         </div>
-
+         <div class="interval" v-if="food.info"></div>
         <!-- 商品介绍 -->
-        <!-- <div class="" style="line-height:2">{{food}}</div> -->
-
+        <div class="content" v-if="food.info">
+          <div class="moduleTitle">商品介绍</div>
+          <p class="food-des">
+            {{food.info}}
+          </p>
+        </div>
+        <div class="interval"></div>
         <!-- 商品评价 -->
-        <div class=""></div>
+        <div class="content">
+          <div class="moduleTitle">商品评价</div>
+          <div class="food-rating"></div>
+        </div>
       </div>
     </div>
   </transition>
@@ -65,19 +74,16 @@ export default {
       this.showFlag = false
     },
     addFirst(event) {
-      console.log(event.target)
       this.$emit('cartAdd', event.target)
       this.$set(this.food, 'count', 1)
+    },
+    cartAdd(el) {
+      this.$emit('cartAdd', el)
     }
   },
   mounted() {
-    this.$on('cartAdd', (target) => {
-      // console.log('这是一个参数', target)
-      this.$nextTick(() => {
-        console.log('这是一个组件--', this.$refs.shopCart)
-        // this.$refs.shopCart.drop(target)
-      })
-    })
+    // console.log('子组件mounted事件')
+    // console.log(this.food)
   },
   components: {
     cartcontrol
@@ -165,4 +171,25 @@ export default {
         line-height 24px
         color #fff
         font-size 10px
+        opacity 1
+        &.fade-enter, &.fade-leave-to
+          opacity 0
+        &.fade-enter-active, &.fade-leave-active
+          transition 0.5s
+        &.fade-enter-to, &.fade-leave
+          opacity 1
+      .moduleTitle
+        font-size 14px
+        color rgb(7,17,27)
+        line-height 14px
+      .food-des
+        font-size 12px
+        font-weight 200
+        line-height 24px
+        color rgb(77,85,93)
+    .interval
+      width 100%
+      height 16px
+      background #f3f5f7
+      border-bottom: 1px solid rgba(7,17,27,0.1);
 </style>
