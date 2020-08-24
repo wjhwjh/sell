@@ -25,7 +25,7 @@
             <div @click="addFirst($event)" class="buy" v-show="!food.count || food.count===0">加入购物车</div>
           </transition>
         </div>
-         <div class="interval" v-if="food.info"></div>
+         <split v-if="food.info"></split>
         <!-- 商品介绍 -->
         <div class="content" v-if="food.info">
           <div class="moduleTitle">商品介绍</div>
@@ -33,11 +33,12 @@
             {{food.info}}
           </p>
         </div>
-        <div class="interval"></div>
+        <split></split>
         <!-- 商品评价 -->
-        <div class="content">
-          <div class="moduleTitle">商品评价</div>
-          <div class="food-rating"></div>
+        <div class="rating">
+          <h1 class="title">商品评价</h1>
+          <!-- 父组件向子组件传递数据，在传递数据的时候变量的命名 -->
+          <ratingSelect :select-type='selecttype' :ratings="food.ratings" :only-content='onlycontent' :desc='desc'></ratingSelect>
         </div>
       </div>
     </div>
@@ -46,6 +47,9 @@
 <script>
 import BScroll from 'better-scroll'
 import cartcontrol from '../cartcontrol/cartcontrol'
+import split from '../split/split'
+import ratingSelect from '../ratingSelect/ratingSelect'
+const ALL = 2
 export default {
   props: {
     food: {
@@ -54,11 +58,20 @@ export default {
   },
   data () {
     return {
-      showFlag: false
+      showFlag: false,
+      onlycontent: true,
+      selecttype: ALL,
+      desc: {
+        all: '全部',
+        positive: '推荐',
+        negative: '吐槽'
+      }
     }
   },
   methods: {
     show() {
+      this.onlycontent = true
+      this.selecttype = ALL
       this.showFlag = true
       this.$nextTick(() => {
         if (!this.scroll) {
@@ -86,7 +99,9 @@ export default {
     // console.log(this.food)
   },
   components: {
-    cartcontrol
+    cartcontrol,
+    split,
+    ratingSelect
   }
 }
 </script>
@@ -129,7 +144,6 @@ export default {
     .content
       position relative
       padding 18px
-      border-bottom 1px solid rgba(7,17,27,0.1)
       .title
         line-height 1
         font-size 14px
@@ -179,6 +193,7 @@ export default {
         &.fade-enter-to, &.fade-leave
           opacity 1
       .moduleTitle
+        padding-bottom 6px
         font-size 14px
         color rgb(7,17,27)
         line-height 14px
@@ -187,9 +202,12 @@ export default {
         font-weight 200
         line-height 24px
         color rgb(77,85,93)
-    .interval
-      width 100%
-      height 16px
-      background #f3f5f7
-      border-bottom: 1px solid rgba(7,17,27,0.1);
+  .rating
+    padding-top 18px
+    padding-bottom 46px
+    .title
+      padding 0 18px 6px 18px
+      font-size 14px
+      color rgb(7,17,27)
+      line-height 14px
 </style>
