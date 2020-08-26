@@ -38,7 +38,11 @@
         <div class="rating">
           <h1 class="title">商品评价</h1>
           <!-- 父组件向子组件传递数据，在传递数据的时候变量的命名 -->
-          <ratingSelect :select-type='selecttype' :ratings="food.ratings" :only-content='onlycontent' :desc='desc'></ratingSelect>
+          <ratingSelect @ratingType='ratingType' @toggleContent='toggleContent' :select-type='selecttype' :ratings="food.ratings" :only-content='onlycontent' :desc='desc'></ratingSelect>
+          <ul class="rating-list">
+            <li>这是评价列表</li>
+          </ul>
+          <div v-if="!food.ratings || !food.ratings.length" class="no-rating">暂无数据</div>
         </div>
       </div>
     </div>
@@ -89,14 +93,21 @@ export default {
     addFirst(event) {
       this.$emit('cartAdd', event.target)
       this.$set(this.food, 'count', 1)
+      console.log('商品相关的数据', this.food)
     },
     cartAdd(el) {
       this.$emit('cartAdd', el)
+    },
+    // 子组件传递的是否看全部内容
+    toggleContent(flag) {
+      this.onlycontent = flag
+    },
+    // 子组件传递的所选择的类型
+    ratingType(type) {
+      this.selecttype = type
     }
   },
   mounted() {
-    // console.log('子组件mounted事件')
-    // console.log(this.food)
   },
   components: {
     cartcontrol,
