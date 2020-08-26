@@ -40,7 +40,16 @@
           <!-- 父组件向子组件传递数据，在传递数据的时候变量的命名 -->
           <ratingSelect @ratingType='ratingType' @toggleContent='toggleContent' :select-type='selecttype' :ratings="food.ratings" :only-content='onlycontent' :desc='desc'></ratingSelect>
           <ul class="rating-list">
-            <li>这是评价列表</li>
+            <li class="item" v-for="(item, index) in food.ratings" :key="index">
+              <div class="des">
+                <span class="time">{{item.rateTime}}</span>
+                <span class="user">{{item.username}}<img :src="item.avatar" alt="" /></span>
+              </div>
+              <p class="text">
+                <span class="icon" :class="{'icon-thumb_down': item.rateType===1, 'icon-thumb_up': item.rateType===0}"></span>
+                {{item.text}}
+              </p>
+            </li>
           </ul>
           <div v-if="!food.ratings || !food.ratings.length" class="no-rating">暂无数据</div>
         </div>
@@ -221,4 +230,39 @@ export default {
       font-size 14px
       color rgb(7,17,27)
       line-height 14px
+    .rating-list
+      padding 0 18px
+      .item
+        padding 16px 0
+        border-bottom 1px solid rgba(7,17,27, 0.1)
+        .des
+          display flex
+          justify-content space-between
+          line-height 12px
+          .time
+            font-size 10px
+            color rgb(147,153,159)
+          .user
+            font-size 10px
+            color rgb(147,153,159)
+            &>img
+              display inline
+              width 12px
+              height 12px
+              margin-left 6px
+              border-radius 50%
+              font-style normal
+        .text
+          margin-top 6px
+          font-size 12px
+          color rgb(7,17,27)
+          line-height 16px
+          .icon
+            display inline
+            font-size 12px
+            line-height 24px
+            &.icon-thumb_down
+              color rgb(147,153,159)
+            &.icon-thumb_up
+              color rgb(0,160,220)
 </style>
