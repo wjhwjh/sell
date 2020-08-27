@@ -42,7 +42,7 @@
           <ul class="rating-list" v-show="food.ratings && food.ratings.length">
             <li class="item" v-show="needShow(item.rateType, item.text)" v-for="(item, index) in food.ratings" :key="index">
               <div class="des">
-                <span class="time">{{item.rateTime}}</span>
+                <span class="time">{{item.rateTime | formatDate}}</span>
                 <span class="user">{{item.username}}<img :src="item.avatar" alt="" /></span>
               </div>
               <p class="text">
@@ -59,9 +59,11 @@
 </template>
 <script>
 import BScroll from 'better-scroll'
-import cartcontrol from '../cartcontrol/cartcontrol'
-import split from '../split/split'
-import ratingSelect from '../ratingSelect/ratingSelect'
+import { fomatDate } from 'common/js/mydate.js'
+import cartcontrol from 'components/cartcontrol/cartcontrol'
+import split from 'components/split/split'
+import ratingSelect from 'components/ratingSelect/ratingSelect'
+// console.log(fomatDate)
 const ALL = 2
 export default {
   props: {
@@ -132,6 +134,11 @@ export default {
       } else {
         return type === this.selecttype
       }
+    }
+  },
+  filters: {
+    formatDate(time) {
+      return fomatDate(time, 'yyyy-MM-DD hh:mm')
     }
   },
   mounted() {
