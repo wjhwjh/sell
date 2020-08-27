@@ -57,7 +57,7 @@ export default {
   },
   computed: {
     positive() {
-      console.log('这是一个计算属性函数')
+      // console.log('这是一个计算属性函数')
       return this.ratings.filter(item => {
         return item.rateType === 0
       })
@@ -92,7 +92,8 @@ export default {
     &>span
       display inline-block
       margin-right 8px
-      padding 8px 12px
+      padding 8px
+      border-radius 2px
       font-size 12px
       line-height 16px
       color rgb(77,85,93)
@@ -106,7 +107,7 @@ export default {
         color #fff
         background rgb(0,160,220)
       &.negative
-         background rgba(77,85,93,0.2)
+         background rgba(77,85,93,0.3)
 .switch
   padding 12px 18px
   border-bottom 1px solid rgba(7,17,27,0.1)

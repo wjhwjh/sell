@@ -39,8 +39,8 @@
           <h1 class="title">商品评价</h1>
           <!-- 父组件向子组件传递数据，在传递数据的时候变量的命名 -->
           <ratingSelect @ratingType='ratingType' @toggleContent='toggleContent' :select-type='selecttype' :ratings="food.ratings" :only-content='onlycontent' :desc='desc'></ratingSelect>
-          <ul class="rating-list">
-            <li class="item" v-for="(item, index) in food.ratings" :key="index">
+          <ul class="rating-list" v-show="food.ratings && food.ratings.length">
+            <li class="item" v-show="needShow(item.rateType, item.text)" v-for="(item, index) in food.ratings" :key="index">
               <div class="des">
                 <span class="time">{{item.rateTime}}</span>
                 <span class="user">{{item.username}}<img :src="item.avatar" alt="" /></span>
@@ -51,7 +51,7 @@
               </p>
             </li>
           </ul>
-          <div v-if="!food.ratings || !food.ratings.length" class="no-rating">暂无数据</div>
+          <div v-show="!food.ratings || !food.ratings.length" class="no-rating">暂无数据</div>
         </div>
       </div>
     </div>
@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     show() {
-      this.onlycontent = true
+      this.onlycontent = false
       this.selecttype = ALL
       this.showFlag = true
       this.$nextTick(() => {
@@ -102,7 +102,7 @@ export default {
     addFirst(event) {
       this.$emit('cartAdd', event.target)
       this.$set(this.food, 'count', 1)
-      console.log('商品相关的数据', this.food)
+      // console.log('商品相关的数据', this.food)
     },
     cartAdd(el) {
       this.$emit('cartAdd', el)
@@ -110,10 +110,28 @@ export default {
     // 子组件传递的是否看全部内容
     toggleContent(flag) {
       this.onlycontent = flag
+      // 注意在数据改变DOM更新之后，刷新滚动条
+      // 这里使用this.$nextTick
+      this.$nextTick(() => {
+        this.scroll.refresh()
+      })
     },
     // 子组件传递的所选择的类型
     ratingType(type) {
       this.selecttype = type
+      this.$nextTick(() => {
+        this.scroll.refresh()
+      })
+    },
+    needShow(type, text) {
+      if (this.onlycontent && !text) {
+        return false
+      }
+      if (this.selecttype === ALL) {
+        return true
+      } else {
+        return type === this.selecttype
+      }
     }
   },
   mounted() {
@@ -265,4 +283,9 @@ export default {
               color rgb(147,153,159)
             &.icon-thumb_up
               color rgb(0,160,220)
+    .no-rating
+      padding 10px 18px
+      line-height 1
+      font-size 14px
+      color rgb(147,153,159)
 </style>
