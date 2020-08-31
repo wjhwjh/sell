@@ -45,7 +45,9 @@
         <div class="detail-wrapper">
           <div class="detail-main">
             <div class="name">{{sellers.name}}</div>
-            <div class="star-wrapper"></div>
+            <div class="star-wrapper">
+              <star :size ="48" :score="sellers.score"></star>
+            </div>
             <div class="title">
               <span class="line"></span>
               <span class="text">信息优惠</span>
@@ -72,6 +74,8 @@
   </div>
 </template>
 <script>
+import star from 'components/star/star'
+
 let mapStyle = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
 export default {
   data() {
@@ -93,7 +97,10 @@ export default {
       this.detailShow = true
     }
   },
-  mounted() {}
+  mounted() {},
+  components: {
+    star
+  }
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
@@ -300,6 +307,7 @@ export default {
         .star-wrapper {
           margin-top: 16px;
           height: 50px;
+          text-align center
         }
 
         .title {
