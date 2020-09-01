@@ -1,6 +1,6 @@
 <template>
-    <div class="ratings">
-      <div class="ratings-content">
+    <div class="ratings" ref="ratingsContent">
+      <div class="ratings-content" ref="rat">
         <div class="overview">
           <div class="overview-left">
             <span class="score">{{sellers.score}}</span>
@@ -25,16 +25,41 @@
           </div>
         </div>
         <split></split>
+        <ratingSelect></ratingSelect>
+        <ul class="ratings-list" v-show="ratings && ratings.length">
+          <li v-for="(ratingItem, index) in ratings" :key="index" class="item">
+            <div class="user">
+              <span class="avatar">
+                <img :src="ratingItem.avatar" alt="">
+              </span>
+              <div class="des">
+                <span>{{ratingItem.username}}</span>
+                <div><span>{{ratingItem.rateTime}}</span></div>
+              </div>
+              <span class="time">{{ratingItem.deliveryTime}}</span>
+            </div>
+            <div class="text"></div>
+            <div v-show="!ratingItem.recommend.length" v-for="(item, idx) in ratingItem.recommend" :key="idx" class="recommend-wrapper">
+              <i></i>
+              <span>{{item}}</span>
+            </div>
+          </li>
+
+        </ul>
+        <div v-show="!ratings || !ratings.length">暂无数据</div>
       </div>
     </div>
 </template>
 <script>
+import BScroller from 'better-scroll'
 import star from 'components/star/star'
 import split from 'components/split/split'
+import ratingSelect from 'components/ratingSelect/ratingSelect'
 export default {
   data() {
     return {
-      sellers: []
+      sellers: [],
+      ratings: []
     }
   },
   created () {
@@ -42,16 +67,29 @@ export default {
       .then(res => {
         // console.log('评价数据', res)
         this.sellers = res.data.data
-        console.log('评价数据', this.sellers)
+        // console.log('商家数据', this.sellers)
+      })
+    this.$Axios.get('/ratings')
+      .then(res => {
+        // console.log('评价数据', res)
+        this.ratings = res.data.data
+        // console.log('评价数据', this.ratings)
+
+        this.$nextTick(() => {
+          console.log(this.$refs.ratingsContent.offsetHeight)
+          console.log(this.$refs.rat.offsetHeight)
+          this.scroll = new BScroller(this.$refs.ratingsContent, {})
+        })
       })
   },
   components: {
     star,
-    split
+    split,
+    ratingSelect
   }
 }
 </script>
-<style lang="stylus" rel="stylesheet/stylus">
+<style lang="stylus" rel="stylesheet/stylus" scoped>
  .ratings
     position absolute
     width 100%
@@ -111,4 +149,12 @@ export default {
             font-size 12px
             color rgb(147,153,159)
             line-height 18px
+    .ratings-list
+      padding 0 18px
+      .item
+        padding 18px 0
+        border-bottom 1px solid rgba(7,17,27.0.1)
+        .user
+          display flex
+          padding-bottom 6px
 </style>
