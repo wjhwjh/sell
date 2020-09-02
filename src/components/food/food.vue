@@ -74,7 +74,7 @@ export default {
   data () {
     return {
       showFlag: false,
-      onlycontent: true,
+      onlycontent: false,
       selecttype: ALL,
       desc: {
         all: '全部',
