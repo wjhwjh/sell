@@ -138,7 +138,7 @@ export default {
   },
   filters: {
     formatDate(time) {
-      return fomatDate(time, 'yyyy-MM-DD hh:mm')
+      return fomatDate(time, 'YYYY-MM-DD hh:mm')
     }
   },
   mounted() {

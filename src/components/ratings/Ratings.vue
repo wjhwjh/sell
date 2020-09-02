@@ -25,7 +25,7 @@
           </div>
         </div>
         <split></split>
-        <ratingSelect :selectType='selecttype' :onlyContent='onlycontent' @ratingType='ratingType' @toggleContent='toggleContent' :ratings='ratings'></ratingSelect>
+        <ratingSelect class="rateselect" :selectType='selecttype' :onlyContent='onlycontent' @ratingType='ratingType' @toggleContent='toggleContent' :ratings='ratings'></ratingSelect>
         <ul class="ratings-list" v-show="ratings && ratings.length">
           <li v-for="(ratingItem, index) in ratings" :key="index" v-show="showRating(ratingItem.rateType, ratingItem.text)" class="item">
             <img :src="ratingItem.avatar" alt="" class="avatar">
@@ -35,12 +35,14 @@
                   <span class="name">{{ratingItem.username}}</span>
                   <div class="star-wrapper"><star :size="24" :score="ratingItem.score"></star><span v-if="ratingItem.deliveryTime" class="send-time">{{ratingItem.deliveryTime}}分钟送达</span></div>
                 </div>
-                <span class="time">{{ratingItem.rateTime}}</span>
+                <span class="time">{{ratingItem.rateTime | fomatDate}}</span>
               </div>
               <div class="text">{{ratingItem.text}}</div>
-              <div v-show="!ratingItem.recommend.length" v-for="(item, idx) in ratingItem.recommend" :key="idx" class="recommend-wrapper">
-                <i></i>
-                <span>{{item}}</span>
+              <div v-show="ratingItem.recommend.length" class="recommend-wrapper">
+                <i class="icon" :class="{ 'icon-thumb_up':ratingItem.rateType===0, 'icon-thumb_down':ratingItem.rateType===1}"></i>
+                <div class="tip-wrapper">
+                  <span class="tip" v-for="(item, idx) in ratingItem.recommend" :key="idx">{{item}}</span>
+                </div>
               </div>
             </div>
           </li>
@@ -54,9 +56,10 @@ import BScroller from 'better-scroll'
 import star from 'components/star/star'
 import split from 'components/split/split'
 import ratingSelect from 'components/ratingSelect/ratingSelect'
+import { fomatDate } from 'common/js/mydate'
 const ALL = 2
-const POSITIVE = 0
-const NEGATIVE = 1
+// const POSITIVE = 0
+// const NEGATIVE = 1
 export default {
   data() {
     return {
@@ -129,6 +132,12 @@ export default {
       }
     }
   },
+  // 过滤器的使用
+  filters: {
+    fomatDate(date) {
+      return fomatDate(date, 'YYYY-MM-DD hh:mm')
+    }
+  },
   components: {
     star,
     split,
@@ -196,6 +205,8 @@ export default {
             font-size 12px
             color rgb(147,153,159)
             line-height 18px
+    .rateselect
+      padding-top 6px
     .ratings-list
       padding 0 18px
       .item
@@ -235,11 +246,35 @@ export default {
               font-size 10px
               font-weight 200
               color rgb(147,153,159)
-              line-height 12px
+              line-height 14px
           .text
+            margin-top 6px
             font-size 12px
             font-weight 200
             color rgb(7,17,27)
-            line-height 12px
+            line-height 13px
+          .recommend-wrapper
+            margin-top 8px
+            display flex
+            .icon
+              font-style normal
+              font-size 12px
+              line-height 32px
+              &.icon-thumb_up
+                color rgb(0,160,220)
+              &.icon-thumb_down
+                color rgb(183,187,191)
+            .tip-wrapper
+              display flex
+              flex-wrap wrap
+              .tip
+                display inline-block
+                padding: 4px 6px
+                margin: 4px 8px
+                border 1px solid rgba(7,17,27,0.1)
+                border-radius 2px
+                font-size 10px
+                color rgb(147,153,159)
+                line-height 1
 
 </style>
