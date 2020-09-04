@@ -1,6 +1,7 @@
 <template>
     <div class="seller">
-      <div class="seller-content"></div>
+      <div class="seller-content">
+      </div>
     </div>
 </template>
 <script>
