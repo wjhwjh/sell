@@ -66,6 +66,9 @@ import star from 'components/star/star'
 import split from 'components/split/split'
 
 let mapStyle = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
+/*
+数据是父组件传递的
+*/
 export default {
   data() {
     return {
@@ -85,7 +88,8 @@ export default {
           })
           this.imgscroll = new BScroll(this.$refs.imgWrapper, {
             click: true,
-            scrollX: true
+            scrollX: true,
+            eventPassthrough: true
           })
         })
       })
