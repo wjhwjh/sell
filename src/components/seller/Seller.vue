@@ -81,7 +81,7 @@ export default {
     this.$Axios.get('/sellers')
       .then((res) => {
         this.seller = res.data.data
-        console.log(this.seller)
+        // console.log(this.seller)
         this.$nextTick(() => {
           this.scroll = new BScroll(this.$refs.seller, {
             click: true
@@ -95,7 +95,11 @@ export default {
       })
   },
   computed: {},
-  methods: {},
+  methods: {
+    _initScroll() {
+      console.log(this.$refs.imgWrapper)
+    }
+  },
   components: {
     star,
     split
@@ -231,7 +235,7 @@ export default {
           .img-list
             display block
             height 90px
-            width 500px
+            // width 500px
             white-space: nowrap;
             .item
               vertical-align top
