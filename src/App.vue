@@ -10,7 +10,7 @@
         <router-link :to='{name:"ratings"}'>评价</router-link>
       </li>
        <li class="tab-item">
-        <router-link :to='{name:"seller"}'>商家</router-link>
+        <router-link :to='{name:"seller", query:{sellerId:"987"}}'>商家</router-link>
       </li>
     </ul>
     <router-view/>

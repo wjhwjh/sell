@@ -2,7 +2,7 @@ export function fomatDate(date, fmt) {
   date = new Date(date)
   if (/(Y+)/.test(fmt)) {
     fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
-    console.log(fmt)
+    // console.log(fmt)
   }
 
   let o = {

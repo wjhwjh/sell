@@ -14,19 +14,19 @@ export function saveToLocal(id, key, value) {
     }
   }
   seller[id][key] = value
-  window.localStorage.__seller__ = JSON.justify(seller)
+  window.localStorage.__seller__ = JSON.stringify(seller)
 }
 
 export function loadFromLocal(id, key, def) {
   let seller = window.localStorage.__seller__
+  // console.log('这是要获取数据', id, seller)
   // 如果没有seller这个属性，返回默认值；如果有则要转化为对象
   if (!seller) return def
   // seller存在的情况下，seller转化为对象
   seller = JSON.parse(seller)
-
+  // console.log(222, seller[id])
   // 当seller[id]不存在的时候返回默认值，如果存在则返回默认值
   if (!seller[id]) return def
-
   // 返回seller
-  return seller
+  return seller[id][key]
 }

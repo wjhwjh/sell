@@ -62,6 +62,7 @@
 </template>
 <script>
 import BScroll from 'better-scroll'
+import { saveToLocal, loadFromLocal } from 'common/js/storage.js'
 import star from 'components/star/star'
 import split from 'components/split/split'
 
@@ -71,22 +72,26 @@ let mapStyle = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
 
 2. vue生命周期
 */
+// console.log('这是一个模块', saveToLocal, loadFromLocal)
 export default {
   data() {
     return {
       seller: {},
       mapStyle,
-      followerFlag: false
+      sellerId: this.$route.query.sellerId,
+      followerFlag: (() => {
+        return loadFromLocal(this.$route.query.sellerId, 'favourite', false)
+      })()
     }
   },
   // 实例的一个方法
   created () {
-    console.log('这是created方法')
+    // console.log('这是created方法')
     // console.log(this.$Axios)
     this.$Axios.get('/sellers')
       .then((res) => {
         this.seller = res.data.data
-        console.log(this.seller)
+        // console.log(this.seller)
         this.$nextTick(() => {
           this.init()
         })
@@ -94,7 +99,8 @@ export default {
   },
   // 实例的一个方法
   mounted() {
-    console.log('这是mounted方法')
+    // console.log('这是mounted方法')
+    // console.log(this.$route)
   },
   // 存放计算属性的对象
   computed: {
@@ -129,6 +135,8 @@ export default {
     },
     followerHandle() {
       this.followerFlag = !this.followerFlag
+      saveToLocal(this.sellerId, 'favourite', this.followerFlag)
+      console.log(this.sellerId)
     }
   },
   // 挂载组件的对象
