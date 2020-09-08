@@ -24,9 +24,9 @@
               <p class="price">{{seller.deliveryTime}}<span>分钟</span></p>
             </li>
           </ul>
-          <div class="follower-wrappwer">
-            <span class="icon icon-favorite"></span>
-            <p class="text">已收藏</p>
+          <div class="follower-wrappwer" @click="followerHandle">
+            <span class="icon icon-favorite" :class="{'on': followerFlag}"></span>
+            <p class="text">{{followerText}}</p>
           </div>
         </div>
         <split></split>
@@ -43,7 +43,7 @@
         <div class="scene">
           <h1 class="title">公告与活动</h1>
           <div class="img-wrapper" ref="imgWrapper">
-            <ul class="img-list">
+            <ul class="img-list" ref="imgList">
                 <li class="item" v-for="(item, index) in seller.pics" :key="index">
                   <img :src="item" alt="">
                 </li>
@@ -67,43 +67,76 @@ import split from 'components/split/split'
 
 let mapStyle = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
 /*
-数据是父组件传递的
+1. 数据是父组件传递的，子组件的周期函数执行
+
+2. vue生命周期
 */
 export default {
   data() {
     return {
       seller: {},
-      mapStyle
+      mapStyle,
+      followerFlag: false
     }
   },
+  // 实例的一个方法
   created () {
+    console.log('这是created方法')
     // console.log(this.$Axios)
     this.$Axios.get('/sellers')
       .then((res) => {
         this.seller = res.data.data
         // console.log(this.seller)
         this.$nextTick(() => {
-          this.scroll = new BScroll(this.$refs.seller, {
-            click: true
-          })
-          this.imgscroll = new BScroll(this.$refs.imgWrapper, {
-            click: true,
-            scrollX: true,
-            eventPassthrough: true
-          })
+          this.init()
         })
       })
   },
-  computed: {},
-  methods: {
-    _initScroll() {
-      console.log(this.$refs.imgWrapper)
+  // 实例的一个方法
+  mounted() {
+    console.log('这是mounted方法')
+  },
+  // 存放计算属性的对象
+  computed: {
+    followerText() {
+      if (this.followerFlag) {
+        return '已收藏'
+      } else {
+        return '收藏'
+      }
     }
   },
+  // 存放方法的对象，所有的工能函数都可以写在这个里边
+  methods: {
+    init() {
+      // console.log(this.seller.pics)
+      // console.log(this.$refs.imgList.offsetWidth)
+      // 这里计算出图片的长度，设置ul的总长度，如果不这样设置，BScroll创建的对象是无法工作的
+      // 当无法工作时，采用怎样的解决办法。
+      let imgWidth = 120
+      let imglen = this.seller.pics.length
+      this.$refs.imgList.style.width = (imgWidth + 6) * imglen - 6 + 'px'
+      // 整个页面设置滚动
+      this.scroll = new BScroll(this.$refs.seller, {
+        click: true
+      })
+      // 为图片设置横向滚动
+      this.imgscroll = new BScroll(this.$refs.imgWrapper, {
+        click: true,
+        scrollX: true,
+        eventPassthrough: true
+      })
+    },
+    followerHandle() {
+      this.followerFlag = !this.followerFlag
+    }
+  },
+  // 挂载组件的对象
   components: {
     star,
     split
-  }
+  },
+  watch: {}
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
