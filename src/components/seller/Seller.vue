@@ -86,7 +86,7 @@ export default {
     this.$Axios.get('/sellers')
       .then((res) => {
         this.seller = res.data.data
-        // console.log(this.seller)
+        console.log(this.seller)
         this.$nextTick(() => {
           this.init()
         })
