@@ -13,7 +13,9 @@
         <router-link :to='{name:"seller", query:{sellerId:"987"}}'>商家</router-link>
       </li>
     </ul>
-    <router-view/>
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
   </div>
 </template>
 
