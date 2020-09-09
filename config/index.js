@@ -63,7 +63,7 @@ module.exports = {
          * Source Maps
          */
 
-        productionSourceMap: true, // 是否开启source-map
+        productionSourceMap: false, // 是否开启source-map
         // https://webpack.js.org/configuration/devtool/#production
         devtool: '#source-map', // 同dev
 
