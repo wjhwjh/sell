@@ -27,18 +27,17 @@ export default {
   },
   methods: {
     addCart(event) {
-      // console.log('cartControl添加商品')
       // console.log('选择的商品--', this.food)
       if (!this.food.count) {
         this.$set(this.food, 'count', 1)
       } else {
         this.food.count++
       }
-      // console.log('点击事件', event.target)
-      // 触发点击事件
+      // 触发点击事件，把当前的点击的DOM的信息传递到父组件中，子组件和父组件通信的一种方式
       this.$emit('cartAdd', event.target)
       // console.log(this.food)
     },
+    // 去掉添加的商品
     decreaseCart(event) {
       if (this.food.count) {
         this.food.count--

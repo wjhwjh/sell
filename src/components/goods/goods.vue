@@ -52,7 +52,7 @@ export default {
       goods: [],
       mapStyle,
       selectedFood: {}, // 这是一个对象，商品详情页面使用的数据
-      listHeight: [],
+      listHeight: [], // 存放每一个goodlist相对于父级元素顶部的距离
       scrollY: 0 // 滚动条当前的位置
     }
   },
@@ -104,6 +104,7 @@ export default {
     // console.log('父组件mounted事件')
     // console.log('获取元素---', this.$refs.menuGoods)
   },
+  // vue里methods属性只是用来存放方法的，这些方法可以用在任何生命周期的钩子函数里
   methods: {
     _inintScroll() {
       this.menuScroll = new BScroll(this.$refs.menuGoods, {
@@ -113,11 +114,14 @@ export default {
         click: true,
         probeType: 3
       })
+      // 获取滚动条滚动的位置
       this.goodScroll.on('scroll', (pos) => {
         this.scrollY = Math.abs(Math.floor(pos.y))
-        // console.log('这个参数是什么--', this.scrollY)
+        console.log('这个参数是什么--', this.scrollY)
       })
     },
+    // 获取每个goodList距离滚动条到顶部的距离，存放到数组中
+    // 定义的是vue实例内部调用，在数据渲染到页DOM后，对DOM进行操作
     _calculateHeight() {
       let foodList = this.$refs.contentGodds.getElementsByClassName('goods-list-hook')
       let height = 0
@@ -141,7 +145,7 @@ export default {
       // 获取与点击索引值相同的商品模块
       let el = foodList[index]
 
-      // 直接使用，跳转到对应的模块，简直太方便了
+      // 直接使用，跳转到对应的DOM模块，简直太方便了
       this.goodScroll.scrollToElement(el, 300)
     },
     selectedFoodHandle(food) {

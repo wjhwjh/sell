@@ -63,27 +63,27 @@ export default {
   data() {
     return {
       fold: true,
-      balls:[
-         {
-            id: 0,
-            show: false
-          },
-          {
-            id: 1,
-            show: false
-          },
-          {
-            id: 2,
-            show: false
-          },
-          {
-            id: 3,
-            show: false
-          },
-          {
-            id: 4,
-            show: false
-          }
+      balls: [
+        {
+          id: 0,
+          show: false
+        },
+        {
+          id: 1,
+          show: false
+        },
+        {
+          id: 2,
+          show: false
+        },
+        {
+          id: 3,
+          show: false
+        },
+        {
+          id: 4,
+          show: false
+        }
       ],
       dropBalls: []
     }
